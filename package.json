@@ -1,0 +1,19 @@
+{
+  "name": "casc-canteen-project",
+  "version": "1.0.0",
+  "description": "Civil Aviation College(CASC) Canteen Management Software",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gitriyad/CASC-Canteen-Management-Software.git"
+  },
+  "author": "Md. Nurul Huda Riyad",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gitriyad/CASC-Canteen-Management-Software/issues"
+  },
+  "homepage": "https://github.com/gitriyad/CASC-Canteen-Management-Software#readme"
+}
