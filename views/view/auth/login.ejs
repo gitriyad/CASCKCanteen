@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title%></title>
+    <link rel="stylesheet" href="/css/logo.css" />
+    <link rel="stylesheet" href="/css/loginPage.css" />
+  </head>
+  <body>
+    <!-- splash screen -->
+    <section class="splash">
+      <div class="splashContainer">
+        <div class="collegeIcon"></div>
+        <div class="collegeName">
+          <div class="name">সিভিল এভিয়েশন স্কুল এন্ড কলেজ, কুর্মিটোলা</div>
+          <div class="sideText">ক্যান্টিন ম্যানেজমেন্ট সফটওয়্যার</div>
+        </div>
+        <div class="authIcon"></div>
+      </div>
+    </section>
+
+    <!-- Login Area -->
+    <section class="loginArea">
+      <%- include("../../template/logo.ejs")%>
+      <div class="loginPanel">
+        <div class="loginContainer">
+          <div class="register btn" onclick="window.location.href='/register'">
+            রেজিস্টার করুন
+          </div>
+          <div class="loginText">লগইন করুন</div>
+          <div class="loginTable">
+            <table cellspacing="0">
+              <tr>
+                <th>
+                  <label for="email">ই-মেইল</label>
+                </th>
+                <td><input id="email" type="email" class="email" /></td>
+              </tr>
+              <tr>
+                <th><label for="password">পাসওর্য়াড</label></th>
+                <td>
+                  <input id="password" type="password" class="password" />
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" align="center">
+                  <div class="loginbtn btn">লগইন</div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="/js/loginPage.js"></script>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title%></title>
+    <link rel="stylesheet" href="/css/logo.css" />
+    <link rel="stylesheet" href="/css/registerPage.css" />
+    <script src="https://kit.fontawesome.com/978d3e2caa.js"></script>
+  </head>
+  <body>
+    <section class="registerLogoArea">
+      <%- include("../../template/logo.ejs")%>
+    </section>
+    <section class="registrationArea">
+      <div class="registerPanel">
+        <div class="userImage">
+          <div class="hiddenFileInput">
+            <input
+              type="file"
+              name="userProPic"
+              class="userProPic"
+              hidden
+              accept="image/*"
+            />
+          </div>
+          <div class="userProfileIcon">
+            <i class="fa-solid fa-user-plus"></i>
+          </div>
+        </div>
+        <div class="registerText">
+          প্রয়োজনীয় তথ্য দিয়ে রেজিট্রেশন সম্পন্ন করুন
+        </div>
+        <div class="registerTable">
+          <div class="userName">
+            <label for="name">নামঃ</label>
+            <input type="text" class="name" id="name" />
+          </div>
+          <div class="userShortName">
+            <label for="shortName">সংক্ষিপ্ত নামঃ</label>
+            <input
+              type="text"
+              class="shortName"
+              id="shortName"
+              style="text-transform: uppercase"
+            />
+          </div>
+          <div class="userEmail">
+            <label for="email">ই-মেইলঃ</label>
+            <input type="email" class="email" id="email" />
+          </div>
+          <div class="userPass">
+            <label for="pass">পাসওর্য়াডঃ</label>
+            <input type="password" class="pass" id="pass" />
+          </div>
+          <div class="userMobile">
+            <label for="mobile">মোবাইল নংঃ</label>
+            <input type="tel" class="mobile" id="mobile" />
+          </div>
+          <div class="userSubmit btn">রেজিস্টার</div>
+          <div class="notification" style="display: none"></div>
+        </div>
+      </div>
+    </section>
+    <script src="/js/registerPage.js"></script>
+  </body>
+</html>
