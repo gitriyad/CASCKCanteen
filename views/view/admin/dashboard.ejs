@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/logo.css" />
+    <link rel="stylesheet" href="/css/adminDashboard.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <script src="https://kit.fontawesome.com/978d3e2caa.js"></script>
+  </head>
+  <body>
+    <section class="logoArea"><%- include("../../template/logo.ejs")%></section>
+    <section class="userSection">
+      <div class="userPanel">
+        <div class="greetings">
+          <% let greetings=""; let date= new Date(); let
+          hour=date.getHours();if(hour>=0 && hour<=12){ greetings="শুভ সকাল";
+          }else if(hour>=12 && hour<=18){ greetings="শুভ অপরাহ্ণ"; }else{
+          greetings="শুভ সন্ধ্যা"; }%>
+          <div class="text"><%= greetings%>, <%= user.userName%></div>
+        </div>
+        <div class="headline">কন্ট্রোল প্যানেল</div>
+        <div
+          class="userImage"
+          style="
+            background-image: url('/upload/user/<%= user.userShortName%>/<%= user.userProfilePicture%>');
+          "
+        ></div>
+
+        <div class="controlIcon">
+          <div class="icon">
+            <i class="fa-solid fa-bars"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="controlPanel">
+      <div class="actionBtns">
+        <div
+          class="addProduct btn"
+          onclick="window.location.href='/admin/addProduct'"
+        >
+          পন্য সংযোজন
+        </div>
+        <div class="seeProducts btn">পন্য সমূহ দেখুন</div>
+        <div
+          class="setProductPrice btn"
+          onclick="window.location.href='/admin/calculateProductPrice'"
+        >
+          পন্যের দাম হিসাব করুন
+        </div>
+        <div class="seeProductPrice btn">পন্যের দাম দেখুন</div>
+        <div class="addAsset btn">সম্পদ সংযোজন</div>
+        <div class="seeAssets btn">সম্পদ সমূহ দেখুন</div>
+        <div class="addExpense btn">ব্যায় সংযোজন</div>
+        <div class="seeExpenses btn">ব্যায় সমূহ দেখুন</div>
+        <div class="addReport btn">দৈনিক রিপোর্ট তৈরি করুন</div>
+        <div class="seeReports btn">পূর্বের রিপোর্ট সমূহ দেখুন</div>
+        <div class="genReport btn">সম্পূর্ন রিপোর্ট দেখুন</div>
+        <div class="genSummary btn">সংক্ষিপ্ত রিপোর্ট দেখুন</div>
+      </div>
+    </section>
+    <%- include("../../template/footer.ejs")%>
+    <script src="/js/adminDashboard.js"></script>
+  </body>
+</html>

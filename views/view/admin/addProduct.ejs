@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>পন্য সংযোজন</title>
+    <link rel="stylesheet" href="/css/logo.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/addProduct.css" />
+  </head>
+  <body>
+    <%- include("../../template/logo.ejs")%>
+
+    <section class="addProductSection">
+      <div class="addProductContainer">
+        <div class="header">
+          <div class="textHeadline">পন্য সংযোজন করুন</div>
+        </div>
+        <div class="productInput">
+          <div class="product">
+            <div class="productImageContainer"></div>
+            <table class="productValues">
+              <tr>
+                <td>পন্যের নামঃ</td>
+                <td>
+                  <input
+                    type="text"
+                    name="productName"
+                    id="productName"
+                    class="productName"
+                    list="mainProductsList"
+                  />
+                </td>
+                <td>পন্যের ব্র্যান্ড/ভেন্ডরঃ</td>
+                <td>
+                  <input
+                    type="text"
+                    name="productBrand"
+                    id="productBrand"
+                    class="productBrand"
+                  />
+                </td>
+                <td>পন্যের কিচেন স্টকঃ</td>
+                <td>
+                  <input
+                    type="number"
+                    name="productKitchenStock"
+                    id="productKitchenStock"
+                    class="productKitchenStock"
+                    step="0.1"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>পন্যের ক্যান্টিন স্টকঃ</td>
+                <td>
+                  <input
+                    type="number"
+                    name="productCanteenStock"
+                    id="productCanteenStock"
+                    class="productCanteenStock"
+                    step="0.1"
+                  />
+                </td>
+                <td>পন্যের ক্রয়/বিক্রয় এককঃ</td>
+                <td>
+                  <select
+                    name="productQuantityUnit"
+                    id="productQuantityUnit"
+                    class="productQuantityUnit"
+                  >
+                    <option value="">নির্বাচন করুন</option>
+                    <option value="প্রতি কেজি.">প্রতি কেজি.</option>
+                    <option value="প্রতি একক">প্রতি একক</option>
+                  </select>
+                </td>
+                <td>পন্যের ক্যাটাগরি</td>
+                <td>
+                  <div class="categoryContainer">
+                    <div class="category">
+                      <select class="categorySelcetElement">
+                        <option value="">নির্বাচন করুন</option>
+                        <option value="ড্রাই আইটেম">ড্রাই আইটেম</option>
+                        <option value="কিচেন">কিচেন</option>
+                        <option value="চা-কফি">চা-কফি</option>
+                        <option value="স্টেশনারি">স্টেশনারি</option>
+                        <option value="অবিক্রিত">অবিক্রিত</option>
+                      </select>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  এই পন্য তৈরিতে একাধিক<br />
+                  উপকরনের প্রয়োজন?
+                  <input
+                    type="checkbox"
+                    name="combineProduct"
+                    id="combineProduct"
+                    class="combineProduct"
+                  />
+                </td>
+                <td colspan="3">
+                  <div class="ingredientContainer" style="display: none">
+                    <div class="inputDiv">
+                      <select
+                        class="ingredient"
+                        onchange="selectionChange(this)"
+                      >
+                        <option value="">নির্বাচন করুন</option>
+                        <% products.forEach(product=>{%>
+                        <option
+                          value="<%= product.productName%>"
+                          data-id="<%= product._id%>"
+                        >
+                          <%= product.productName%>
+                        </option>
+                        <%})%>
+                      </select>
+                    </div>
+                    <div class="actionBtns">
+                      <div
+                        class="ingredientAddBtn btn"
+                        onclick="addIngredient(this)"
+                      >
+                        Add
+                      </div>
+                      <div
+                        class="ingredientDelBtn btn"
+                        style="display: none"
+                        onclick="deleteIngredient(this)"
+                      >
+                        Delete
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>পন্যের ছবিঃ</td>
+                <td>
+                  <input
+                    type="file"
+                    name="productImage"
+                    id="productImage"
+                    class="productImage"
+                    accept="image/*"
+                    onchange="previewImage()"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td colspan="6">
+                  <div class="saveProductBtn btn" data-user="<%= user._id%>">
+                    সংরক্ষণ করুন
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <%- include("../../template/footer.ejs")%>
+
+    <!-- hidden items -->
+    <datalist id="mainProductsList">
+      <% products.forEach(product=>{%>
+      <option value="<%= product.productName%>"><%})%></option>
+    </datalist>
+    <select class="updateSelect" style="display: none">
+      <option value="">নির্বাচন করুন</option>
+      <% products.forEach(product=>{%>
+      <option value="<%= product.productName%>" data-id="<%= product._id%>">
+        <%= product.productName%>
+      </option>
+      <%})%>
+    </select>
+
+    <select class="originalList" style="display: none">
+      <option value="">নির্বাচন করুন</option>
+      <% products.forEach(product=>{%>
+      <option value="<%= product.productName%>" data-id="<%= product._id%>">
+        <%= product.productName%>
+      </option>
+      <%})%>
+    </select>
+
+    <script src="/js/addProduct.js"></script>
+  </body>
+</html>

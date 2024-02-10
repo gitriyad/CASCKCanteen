@@ -1,0 +1,12 @@
+.footerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 15vh;
+  width: 90vw;
+  margin: 1rem auto;
+  background-color: rgb(63 11 133 / 20%);
+  padding: 0 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+}

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= title%></title>
     <link rel="stylesheet" href="/css/logo.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
     <link rel="stylesheet" href="/css/loginPage.css" />
   </head>
   <body>
@@ -33,9 +34,16 @@
             <table cellspacing="0">
               <tr>
                 <th>
-                  <label for="email">ই-মেইল</label>
+                  <label for="shortName">সংক্ষিপ্ত নামঃ </label>
                 </th>
-                <td><input id="email" type="email" class="email" /></td>
+                <td>
+                  <input
+                    id="shortName"
+                    type="text"
+                    class="shortName"
+                    style="text-transform: uppercase"
+                  />
+                </td>
               </tr>
               <tr>
                 <th><label for="password">পাসওর্য়াড</label></th>
@@ -53,6 +61,7 @@
         </div>
       </div>
     </section>
+    <%- include("../../template/footer.ejs")%>
     <script src="/js/loginPage.js"></script>
   </body>
 </html>

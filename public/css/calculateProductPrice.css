@@ -1,0 +1,52 @@
+table {
+  margin: 0 auto;
+}
+.btn {
+  height: 1.3rem;
+  width: 3rem;
+  font-size: 0.8rem;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 0.2rem;
+}
+
+.singleProductTable {
+  width: 90vw;
+  overflow: auto;
+  max-height: 60vh;
+  margin: 0 auto;
+}
+table input {
+  font-size: 0.8rem;
+  white-space: nowrap;
+  width: 100%;
+}
+table div {
+  width: 6rem;
+}
+th {
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+select.productNameSelecElement {
+  width: 100%;
+}
+.actionBtnDiv {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+.actionControlBtnContainer {
+  width: 90vw;
+  margin: 1rem auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.actionControlBtnContainer .btn {
+  width: 7rem;
+  padding: 1rem 4rem !important;
+  white-space: nowrap;
+  height: 3rem;
+}

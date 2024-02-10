@@ -9,6 +9,7 @@ let authController = require("../controller/authController");
 Router.get("/", authController.getLogin);
 Router.get("/register", authController.getRegister);
 Router.post("/register/:shortName", authController.postRegister);
+Router.post("/login", authController.postLogin);
 
 // exporting routes
 module.exports = Router;

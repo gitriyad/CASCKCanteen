@@ -1,0 +1,104 @@
+body,
+html {
+  user-select: none;
+}
+input::placeholder {
+  color: var(--placeholder-color);
+}
+:root {
+  --placeholder-color: black;
+}
+.addProductContainer {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.header {
+  width: 90vw;
+  height: 10vh;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 1.6rem;
+  font-weight: 900;
+  background-color: #04258342;
+  color: black;
+}
+.product {
+  position: relative;
+}
+table.productValues {
+  width: 90vw;
+  margin: 0 auto;
+  font-size: 1.3rem;
+  font-weight: 600;
+  border-collapse: collapse;
+}
+table.productValues td {
+  padding: 0.5rem 0.2rem;
+  white-space: nowrap;
+  text-align: center;
+}
+table.productValues input[type="text"],
+table.productValues input[type="number"] {
+  width: 100%;
+  font-size: 1.3rem;
+}
+select#productQuantityUnit {
+  font-size: 1.3rem;
+  width: 100%;
+  text-align: center;
+}
+.btn {
+  margin: 0 auto;
+  width: 30%;
+  padding: 1rem 0;
+}
+
+.productImageContainer {
+  height: 20vh;
+  width: 13vw;
+  margin: 1rem 0 0 4rem;
+  border-radius: 1rem;
+  background-position: center center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.ingredientContainer {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 25rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.inputDiv {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.2rem;
+  max-height: 6rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.ingredientAddBtn.btn,
+.ingredientDelBtn.btn {
+  width: 7rem;
+  height: 3rem;
+}
+select.ingredient {
+  width: 7rem;
+}
+.actionBtns {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+select.categorySelcetElement {
+  width: 100%;
+  font-size: 1.3rem;
+  text-align: center;
+}

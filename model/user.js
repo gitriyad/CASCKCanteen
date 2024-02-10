@@ -25,6 +25,10 @@ let userSchema = new Schema({
     type: String,
     default: "user",
   },
+  userToken: {
+    type: String,
+    default: "not Taken",
+  },
 });
 
 // Only password Encryption Handler

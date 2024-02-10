@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>পন্যের দাম নির্ধারণ</title>
+    <link rel="stylesheet" href="/css/logo.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/calculateProductPrice.css" />
+  </head>
+  <body>
+    <%- include("../../template/logo.ejs")%>
+
+    <section class="productSectionChoosingSection">
+      <div class="productSectionChoosingSectionContainer"></div>
+    </section>
+
+    <section class="singleProductSection">
+      <div class="singleProductContainer">
+        <div class="singleProductTable">
+          <table border="1" cellspacing="0" class="singleProductDataTable">
+            <tr>
+              <th>পন্যের নাম</th>
+              <th>
+                পন্যের ক্রয়ের<br />
+                পরিমান
+              </th>
+              <th>পন্যের ক্রয়মূল্য</th>
+              <th>যাতায়াত খরচ</th>
+              <th>
+                প্রতি একক পন্যের<br />
+                যাতায়াত খরচ
+              </th>
+              <th>
+                প্রতি একক<br />
+                পন্যের ক্রয়মূল্য
+              </th>
+              <th>
+                প্রতি একক পন্যের<br />
+                মোট ক্রয়মূল্য
+              </th>
+              <th>পন্যের বিক্রয়মূল্য</th>
+              <th>লাভ</th>
+              <th>
+                একই যাতায়াত খরচের<br />
+                অধিনে একাধিক পন্য
+              </th>
+            </tr>
+            <tr>
+              <td class="productName">
+                <div class="productNameSelectDiv">
+                  <select
+                    class="productNameSelecElement"
+                    onchange="productSelectionChanged(this)"
+                  >
+                    <option value="">নির্বাচন করুন</option>
+                    <%products.forEach(product=>{if(!product.productIsCombined){%>
+
+                    <option
+                      value="<%= product.productName%>"
+                      data-productId="<%= product._id%>"
+                    >
+                      <%= product.productName%>
+                    </option>
+                    <%}})%>
+                  </select>
+                </div>
+              </td>
+              <td class="productBuyAmountTd">
+                <div class="productBuyAmountDiv">
+                  <input
+                    type="text"
+                    class="productBuyAmountInput"
+                    oninput="onInputHandler(this)"
+                  />
+                </div>
+              </td>
+              <td class="productBuyPriceTd">
+                <div class="productBuyPriceDiv">
+                  <input
+                    type="text"
+                    oninput="onInputHandler(this)"
+                    class="productBuyPriceInput"
+                  />
+                </div>
+              </td>
+              <td class="productTransportCostTd" rowspan="1">
+                <div class="productTransportCostDiv">
+                  <input
+                    type="text"
+                    oninput="onInputHandler(this)"
+                    class="productTransportCostInput"
+                  />
+                </div>
+              </td>
+              <td class="perProductTransportCostTd">
+                <div class="perProductTransportCostDiv">
+                  <input
+                    type="text"
+                    oninput="removeText(this)"
+                    class="perProductTransportCostInput"
+                  />
+                </div>
+              </td>
+              <td class="perProductBuyPriceTd">
+                <div class="perProductBuyPriceDiv">
+                  <input
+                    type="text"
+                    oninput="removeText(this)"
+                    class="perProductBuyPriceInput"
+                  />
+                </div>
+              </td>
+              <td class="perProductTotalBuyPriceTd">
+                <div class="perProductTotalBuyPriceDiv">
+                  <input
+                    type="text"
+                    oninput="removeText(this)"
+                    class="perProductTotalBuyPriceInput"
+                  />
+                </div>
+              </td>
+              <td class="ProductSellPriceTd">
+                <div class="ProductSellPriceDiv">
+                  <input
+                    type="text"
+                    oninput="onInputHandler(this)"
+                    class="ProductSellPriceInput"
+                  />
+                </div>
+              </td>
+              <td class="ProductProfitTd">
+                <div class="ProductProfitDiv">
+                  <input
+                    type="text"
+                    oninput="removeText(this)"
+                    class="ProductProfitInput"
+                  />
+                </div>
+              </td>
+              <td class="actionBtnTd">
+                <div class="actionBtnDiv">
+                  <div
+                    class="addActionBtn btn"
+                    onclick="addSameTransportProduct(this)"
+                  >
+                    Add
+                  </div>
+                  <div
+                    class="delActionBtn btn"
+                    style="display: none"
+                    onclick="deleteSameTransportProduct(this)"
+                  >
+                    Delete
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="singleProductWithMultipleItemSection"></section>
+    <section class="actionControlBtnSection">
+      <div class="actionControlBtnContainer">
+        <div class="addNewProductBtn btn" onclick="addNewProduct()">
+          নতুন পন্য যোগ করুন
+        </div>
+        <div class="submitBtn btn" onclick="submitProducts()">সংরক্ষণ করুন</div>
+      </div>
+    </section>
+
+    <!-- hidden item -->
+    <select class="mainProductSelectElement" style="display: none">
+      <option value="">নির্বাচন করুন</option>
+      <%products.forEach(product=>{if(!product.productIsCombined){%>
+
+      <option
+        value="<%= product.productName%>"
+        data-productId="<%= product._id%>"
+      >
+        <%= product.productName%>
+      </option>
+      <%}})%>
+    </select>
+    <select class="updateProductSelectElement"></select>
+    <div class="user" style="display: none" data-user="<%= user._id%>"></div>
+
+    <%- include("../../template/footer.ejs")%>
+    <script src="https://cdn.jsdelivr.net/npm/he@1.2.0/he.min.js"></script>
+    <script>
+      let productsArr = JSON.parse(
+        he.decode(`<%= JSON.stringify(products) %>`)
+      );
+    </script>
+    <script src="/js/calculateProductPrice.js"></script>
+  </body>
+</html>
