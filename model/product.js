@@ -16,7 +16,15 @@ let productSchema = new Schema({
     type: Number,
     default: 0,
   },
+  perProductBuyPrice: {
+    type: Number,
+    default: 0,
+  },
   productTransportCost: {
+    type: Number,
+    default: 0,
+  },
+  perProductTransportCost: {
     type: Number,
     default: 0,
   },
@@ -28,7 +36,7 @@ let productSchema = new Schema({
     type: Number,
     default: 0,
   },
-  productKitchenStock: {
+  productStoreStock: {
     type: Number,
     default: 0,
   },
@@ -43,12 +51,10 @@ let productSchema = new Schema({
     default: "inActive",
   },
   tags: [
-    [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-      },
-    ],
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+    },
   ],
   hasTag: {
     type: Boolean,
@@ -70,8 +76,23 @@ let productSchema = new Schema({
   },
   ingredients: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
+      _id: false,
+      productId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+      totalQuantity: {
+        type: Number,
+        default: 0,
+      },
+      perProductQuantity: {
+        type: Number,
+        default: 0,
+      },
+      quantityWisePrice: {
+        type: Number,
+        default: 0,
+      },
     },
   ],
   uploadedBy: {
@@ -86,21 +107,29 @@ let productSchema = new Schema({
     default: 0,
   },
 });
-productSchema.virtual("productKitchenStockValue").get(function () {
-  return this.productKitchenStock * this.productSellingPrice;
+
+productSchema.virtual("productStoreStockValue").get(function () {
+  return (
+    parseFloat(this.productStoreStock.toFixed(15)) *
+    parseFloat(this.productPurchasePrice.toFixed(15))
+  );
 });
 productSchema.virtual("productCanteenStockValue").get(function () {
-  return this.productCanteenStock + this.productSellingPrice;
+  return this.productCanteenStock * this.productPurchasePrice;
 });
 productSchema.virtual("productTotalStock").get(function () {
-  return this.productKitchenStock + this.productCanteenStock;
+  return parseFloat(
+    (this.productStoreStock + this.productCanteenStock).toFixed(15)
+  );
 });
 productSchema.virtual("productTotalStockValue").get(function () {
-  return this.productKitchenStockValue + this.productCanteenStockValue;
+  return this.productStoreStockValue + this.productCanteenStockValue;
 });
 
 // adding virtual property to productSchema
 productSchema.set("toObject", { virtuals: true });
 productSchema.set("toJSON", { virtuals: true });
+
+// adding static methods
 
 module.exports = mongoose.model("Product", productSchema);

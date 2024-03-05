@@ -1,0 +1,23 @@
+<head>
+  <link rel="stylesheet" href="/css/dateWiseInfoTemp.css" />
+</head>
+<section class="dateWiseInfoTempSection">
+  <div class="dateWiseInfoTempContainer">
+    <% dateWiseInfo.forEach(info=>{%>
+    <div
+      class="dateWiseInfoTemp"
+      dtb="<%= database%>"
+      onclick="fetchSingleDateData(this)"
+    >
+      <div class="date"><%= info.date%></div>
+      <div class="info">
+        <% Object.keys(info).filter(infKey=>infKey!="date").map((infKey,i)=>{%>
+        <%if(info[infKey]!=0){%>
+        <div class="infoChild"><%=infKey%>: <%= info[infKey]%></div>
+        <%}})%>
+      </div>
+    </div>
+    <%})%>
+  </div>
+  <script src="/js/dateWiseInfoTemp.js"></script>
+</section>

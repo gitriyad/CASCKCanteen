@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>সম্পদের বর্ননা</title>
+    <link rel="stylesheet" href="/css/logo.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/seeAssetDetails.css" />
+  </head>
+  <body>
+    <%- include("../../template/logo.ejs")%> <%-
+    include("../../template/backlinks.ejs")%>
+    <section class="topSection">
+      <div class="topContainer">
+        <% let date=new Date(assets[0].date);let
+        day=String(date.getDate()).padStart(2,"0");let
+        month=String(Number(date.getMonth())+1).padStart(2,"0");let
+        year=String(date.getFullYear()).padStart(2,"0")%>
+        <div class="date">তারিখঃ <%= day%>-<%= month%>-<%= year%></div>
+        <div class="totalCost">মোট খরচঃ <%= totalCost%></div>
+      </div>
+    </section>
+    <section class="assetSection">
+      <div class="assetContainer">
+        <%assets.forEach(asset=>{%>
+        <div class="asset">
+          <div class="leftPart">
+            <div class="detailsGroup">
+              <div class="lable">নামঃ</div>
+              <div class="data"><%= asset.assetName%></div>
+            </div>
+            <div class="detailsGroup">
+              <div class="lable">মেমো নংঃ</div>
+              <div class="data"><%= asset.memoNo%></div>
+            </div>
+            <div class="detailsGroup">
+              <div class="lable">একক দরঃ</div>
+              <div class="data"><%= asset.assetPrice%></div>
+            </div>
+            <div class="detailsGroup">
+              <div class="lable">ক্রয়ের পরিমানঃ</div>
+              <div class="data"><%= asset.assetQuantity%></div>
+            </div>
+            <div class="detailsGroup">
+              <div class="lable">যাতায়াত খরচঃ</div>
+              <div class="data"><%= asset.assetTransportCost%></div>
+            </div>
+            <div class="detailsGroup">
+              <div class="lable">মোট ক্রয়মূল্যঃ</div>
+              <div class="data"><%= asset.purchasePrice%></div>
+            </div>
+          </div>
+          <div class="rightPart">
+            <div
+              class="image"
+              style="
+                background-image: url('/upload/asset/<%= asset.assetName%>/<%= asset.assetImage%>');
+              "
+            ></div>
+          </div>
+        </div>
+        <%})%>
+      </div>
+    </section>
+
+    <%- include("../../template/footer.ejs")%>
+
+    <script src="https://cdn.jsdelivr.net/npm/he@1.2.0/he.min.js"></script>
+    <script>
+      let productsArr = JSON.parse(he.decode(`<%= JSON.stringify(assets) %>`));
+      console.log(productsArr, "<%= totalCost%>");
+      console.log("date", "<%= date%>");
+    </script>
+  </body>
+</html>

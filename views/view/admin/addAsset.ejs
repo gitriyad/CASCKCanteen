@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>সম্পদ সংযোজন</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css"
+    />
+    <link rel="stylesheet" href="/css/logo.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/addAsset.css" />
+  </head>
+  <body>
+    <%- include("../../template/logo.ejs")%> <%-
+    include("../../template/backlinks.ejs")%>
+    <section class="assetAddSection">
+      <div class="assetAddContainer">
+        <div class="partitionContainer">
+          <div class="leftPart">
+            <div class="inputGroup">
+              <div class="label">তারিখ</div>
+              <div class="textInput">
+                <input type="text" class="assetDate" />
+              </div>
+            </div>
+            <div class="inputGroup">
+              <div class="label">সম্পদের নাম</div>
+              <div class="textInput">
+                <input type="text" class="assetName" />
+              </div>
+            </div>
+            <div class="inputGroup">
+              <div class="label">মেমো/রিসিট নং</div>
+              <div class="textInput">
+                <input type="text" class="memoNo" />
+              </div>
+            </div>
+            <div class="inputGroup">
+              <div class="label">মূল্য</div>
+              <div class="textInput">
+                <input
+                  type="text"
+                  class="assetPrice"
+                  oninput="multipleInputHandler(this)"
+                />
+              </div>
+            </div>
+            <div class="inputGroup">
+              <div class="label">ক্রয়ের পরিমান</div>
+              <div class="textInput">
+                <input
+                  type="text"
+                  class="assetQuantity"
+                  oninput="multipleInputHandler(this)"
+                />
+              </div>
+            </div>
+            <div class="inputGroup">
+              <div class="label">যাতায়াত খরচ</div>
+              <div class="textInput">
+                <input
+                  type="text"
+                  class="assetTransportCost"
+                  oninput="multipleInputHandler(this)"
+                />
+              </div>
+            </div>
+            <div class="inputGroup">
+              <div class="label">ক্রয়মূল্য</div>
+              <div class="textInput purchasePrice"></div>
+            </div>
+            <div class="inputGroup submitBtn">
+              <div class="textInput btn" onclick="submitAsset()">
+                সংরক্ষণ করুন
+              </div>
+            </div>
+          </div>
+          <div class="rightPart">
+            <div class="imageContainer">
+              <div class="image"></div>
+              <div class="fileInput">
+                <input
+                  type="file"
+                  class="imageFileInput"
+                  style="display: none"
+                  accept="image/*"
+                  onchange="previewImage(this)"
+                />
+              </div>
+              <div
+                class="imageUpBtn btn"
+                onclick="document.querySelector('.imageFileInput').click()"
+              >
+                ছবি আপলোড
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <%- include("../../template/footer.ejs")%>
+    <!-- hidden part -->
+    <div class="user" user-id="<%= user._id%>" style="display: none"></div>
+    <script src="/js/addAsset.js"></script>
+  </body>
+</html>

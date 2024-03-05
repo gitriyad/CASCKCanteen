@@ -1,0 +1,44 @@
+.dateWiseInfoTempContainer {
+  display: flex;
+  width: 90vw;
+  margin: 0 auto;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.dateWiseInfoTemp {
+  display: flex;
+  flex-direction: column;
+  width: 15rem;
+  min-height: 8rem;
+  flex: 1 1 15rem;
+  background: rgba(0, 0, 200, 0.1);
+  padding: 1rem 0;
+  cursor: pointer;
+}
+.date {
+  flex: 1 1 5rem;
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  overflow: hidden;
+  min-height: 5rem;
+  font-weight: 900;
+  width: 100%;
+  white-space: nowrap;
+}
+.info {
+  display: flex;
+  flex: 1 1 3rem;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 1.3rem;
+  font-weight: 300;
+  flex-wrap: wrap;
+}
+.infoChild {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

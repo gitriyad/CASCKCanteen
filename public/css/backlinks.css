@@ -1,0 +1,19 @@
+section.backLinks {
+  width: 90vw;
+  margin: 0 auto;
+  display: flex;
+  gap: 1rem;
+}
+.backlinks.btn {
+  text-transform: capitalize;
+  margin: 0 0 2rem 0 !important;
+  width: fit-content;
+  font-size: 1rem;
+  padding: 0.5rem !important;
+  height: 3rem !important;
+  border-radius: 1rem !important;
+  -webkit-border-radius: 1rem !important;
+  -moz-border-radius: 1rem !important;
+  -ms-border-radius: 1rem !important;
+  -o-border-radius: 1rem !important;
+}

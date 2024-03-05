@@ -1,0 +1,36 @@
+.addExpenseContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
+  width: 90vw;
+  margin: 0 auto;
+}
+.expense {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-around;
+  width: 100%;
+}
+.category {
+  display: flex;
+  width: 15rem;
+  justify-content: space-between;
+  align-items: center;
+}
+.amoutn {
+  display: flex;
+  width: 15rem;
+  justify-content: space-between;
+  align-items: center;
+}
+.date {
+  display: flex;
+  width: 15rem;
+  justify-content: space-between;
+  align-items: center;
+}
+input.dateInput {
+  text-align: center;
+}

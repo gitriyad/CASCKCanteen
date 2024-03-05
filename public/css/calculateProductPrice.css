@@ -1,3 +1,17 @@
+.productSectionChoosingSectionContainer div {
+  white-space: nowrap;
+  width: fit-content;
+  padding: 1.5rem 1rem !important;
+  font-size: 1.3rem;
+}
+.productSectionChoosingSectionContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1rem 0;
+}
+
 table {
   margin: 0 auto;
 }
@@ -49,4 +63,22 @@ select.productNameSelecElement {
   padding: 1rem 4rem !important;
   white-space: nowrap;
   height: 3rem;
+}
+/* ************************************************************************************************ */
+/* multiple table css */
+/* ************************************************************************************************ */
+.singleProductWithMultipleItemDataTable td {
+  text-align: center;
+  white-space: nowrap;
+  padding: 0 0.1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  width: 6rem;
+}
+select.multipleProductNameSelectElement {
+  width: 100%;
+}
+.singleProductWithMultipleItemDataTable div {
+  width: 100%;
+  margin: 0 auto;
 }

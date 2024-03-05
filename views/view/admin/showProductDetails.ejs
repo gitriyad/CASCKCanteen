@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>পন্যের বিবরণ</title>
+    <link rel="stylesheet" href="/css/logo.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/showProductDetails.css" />
+  </head>
+  <body>
+    <%- include("../../template/logo.ejs")%>
+    <%- include("../../template/backlinks.ejs")%>
+    <section class="productSection">
+      <div class="productContainer">
+        <div
+          class="productImage"
+          style="
+            background-image: url('/upload/products/<%= product.productBrand%>/<%= product.productName%>/<%= product.productImage%>');
+          "
+        ></div>
+        <div class="productDetails">
+          <div class="productSubSection">
+            <div class="text">পন্যের বিবরণ</div>
+            <div class="dataTable">
+              <table border="1" cellspacing="0" class="productTable productDetailsTable">
+                <tr>
+                  <td>পন্যের নামঃ</td> 
+                  <%if(edit){%>
+                  <td class="mainProductNameTd">
+                    <div class="mainProductNameDiv">
+                      <input
+                        class="mainProductNameInput"
+                        value="<%= product.productName%>"
+                        oninput="multipleInputEventHandler()"
+                      />
+                    </div>
+                  </td>
+                  <%}else{%>
+                  <td><%= product.productName%></td>
+                  <% }%>
+                  <td>ব্র্যান্ডঃ</td>
+                  <%if(edit){%>
+                  <td class="mainProductBrandTd">
+                    <div class="mainProductBrandDiv">
+                      <input
+                        class="mainProductBrandInput"
+                        value="<%= product.productBrand%>"
+                      />
+                    </div>
+                  </td>
+                  <% }else{%>
+                  <td><%= product.productBrand%></td>
+                  <% }%>
+
+                  <td>বিক্রয় এককঃ</td>
+                  <%if(edit){%>
+                  <td class="mainProductQuantityUnitTd">
+                    <div class="mainProductQuantityUnitDiv">
+                      <select class="mainProductQuantityUnitSelectElement">
+                        <option value="">নির্বাচন করুন</option>
+                        <option value="প্রতি কেজি." <%= product.productQuantityUnit == 'প্রতি কেজি.' ? 'selected' : '' %>>প্রতি কেজি.</option>
+    <option value="প্রতি লিটার" <%= product.productQuantityUnit == 'প্রতি লিটার' ? 'selected' : '' %>>প্রতি লিটার</option>
+    <option value="প্রতি বক্স" <%= product.productQuantityUnit == 'প্রতি বক্স' ? 'selected' : '' %>>প্রতি বক্স</option>
+    <option value="প্রতি প্যাকেট" <%= product.productQuantityUnit == 'প্রতি প্যাকেট' ? 'selected' : '' %>>প্রতি প্যাকেট</option>
+    <option value="প্রতি বোতল" <%= product.productQuantityUnit == 'প্রতি বোতল' ? 'selected' : '' %>>প্রতি বোতল</option>
+    <option value="প্রতি একক" <%= product.productQuantityUnit == 'প্রতি একক' ? 'selected' : '' %>>প্রতি একক</option>
+                      </select>
+                    </div>
+                  </td>
+                  <%}else{%>
+                  <td><%= product.productQuantityUnit%></td>
+                  <% }%>
+                  <td>পন্যের ক্যাটাগরিঃ</td>
+                  <%if(edit){%>
+                  <td class="mainProductCategoryTd">
+                    <div class="mainProductCategoryDiv">
+                      <select class="mainProductCategorySelectElement">
+                        <option value="">নির্বাচন করুন</option>
+                        <option value="ড্রাই আইটেম" <%= product.productCategory == 'ড্রাই আইটেম' ? 'selected' : '' %>
+                          >ড্রাই আইটেম</option>
+                        <option value="কিচেন" <%= product.productCategory == 'কিচেন' ? 'selected' : '' %>
+                          >কিচেন</option>
+                        <option value="চা-কফি" <%= product.productCategory == 'চা-কফি' ? 'selected' : '' %>
+                          >চা-কফি</option>
+                        <option value="স্টেশনারি" <%= product.productCategory == 'স্টেশনারি' ? 'selected' : '' %>
+                          >স্টেশনারি</option>
+                        <option value="অবিক্রিত" <%= product.productCategory == 'অবিক্রিত' ? 'selected' : '' %>
+                          >অবিক্রিত</option>
+                      </select>
+                    </div>
+                  </td>
+                  <%}else{%>
+                  <td><%= product.productCategory%></td>
+                  <%}if(!edit){%>
+                  <td>পন্য সংযোজনকারীঃ</td>
+                  <td><%= product.uploadedBy.userName%></td>
+                  <%}%>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="productSubSection">
+            <div class="text">পন্যের স্টোক</div>
+            <div class="dataTable">
+              <table border="1" cellspacing="0" class="productTable stockTable">
+                <td>পন্যের একক মূল্যঃ</td>
+                <td><div class="mainProductPurchasePriceDiv"><%= product.productPurchasePrice%></div></td>
+                <td>স্টোরঃ</td>
+                <%if(edit){%>
+                  <td class="mainProductStoreStockTd">
+                    <div class="mainProductStoreStockDiv">
+                      <input
+                        class="mainProductStoreStockInput"
+                        value="<%= product.productStoreStock%>"
+                        oninput="multipleInputEventHandler()"
+                      />
+                    </div>
+                  </td>
+                <%}else{%>
+                  <td><%= product.productStoreStock%></td>
+                <%}%>
+                <td>মূল্য মানঃ</td>
+                <td><div class="mainProductStoreStockValueDiv"><%= product.productStoreStockValue%></div></td>
+                <td>ক্যান্টিনঃ</td>
+                <%if(edit){%>
+                  <td class="mainProductCanteenStockTd">
+                    <div class="mainProductCanteenStockDiv">
+                      <input
+                        class="mainProductCanteenStockInput"
+                        value="<%= product.productCanteenStock%>"
+                        oninput="multipleInputEventHandler()"
+                      />
+                    </div>
+                  </td>
+                <%}else{%>
+                  <td class="mainProductCanteenStockTd"><%= product.productCanteenStock%></td>
+                <%}%>
+                <td>মূল্য মানঃ</td>
+                <td><div class="mainProductCanteenStockValueDiv"><%= product.productCanteenStockValue%></div></td>
+                <td>মোট স্টোকঃ</td>
+                <td><div class="mainProductTotalStockDiv"><%= product.productTotalStock%></div></td>
+                <td>মূল্য মানঃ</td>
+                <td><div class="mainProductTotalStockValueDiv"><%= product.productTotalStockValue%></div></td>
+              </table>
+            </div>
+          </div>
+          <% if(!product.productIsCombined){%>
+          <div class="productSubSection">
+            <div class="text">পন্যের বিক্রয়মূল্য নির্নয় পদ্ধতি</div>
+            <div class="dataTable">
+              <table border="1" cellspacing="0" class="productTable tagsTable">
+                <tr>
+                  <td>পন্যের নাম</td>
+                  <td>
+                    পন্যের ক্রয়ের<br />
+                    পরিমান
+                  </td>
+                  <td>পন্যের ক্রয়মূল্য</td>
+                  <td>যাতায়াত খরচ</td>
+                  <td>
+                    প্রতি একক পন্যের<br />
+                    যাতায়াত খরচ
+                  </td>
+                  <td>
+                    প্রতি একক<br />
+                    পন্যের ক্রয়মূল্য
+                  </td>
+                  <td>
+                    প্রতি একক পন্যের<br />
+                    মোট ক্রয়মূল্য
+                  </td>
+                  <td>পন্যের বিক্রয়মূল্য</td>
+                  <td>লাভ</td>
+                  <%if(edit){%>
+                    <td>বাটন</td>
+                    <%}%>
+                </tr>
+                <tr class="mainTr dataTr">
+                  <td class="productNameTd">
+                    <div class="productNameDiv" prod-id="<%= product._id%>"><%=product.productName%></div>
+                  </td>
+                  <td class="productBuyQuantityTd">
+                    <div class="productBuyQuantityDiv">
+                      <%if(edit){%>
+                      <input class="productBuyQuantityInput" value="<%= product.referenceAmount%>" oninput="multipleInputEventHandler(this)"/>
+                    <%}else{%>
+                      <%= product.referenceAmount%>
+                    <%}%>
+                    </div>
+                  </td>
+                  <td class="productBuyCostTd">
+                    <div class="productBuyCostDiv">
+                      <%if(edit){%>
+                      <input class="productBuyCostInput" value="<%= product.productBuyPrice%>" oninput="multipleInputEventHandler(this)"/>
+                      <%}else{%>
+                        <%= product.productBuyPrice%>
+                      <%}%>
+                    </div>
+                  </td>
+                  <td
+                    class="productTransportCostTd"
+                    rowspan="<%= (product.tags.length)+1%>"
+                  >
+                    <div class="productTransportCostDiv">
+                      <%if(edit){%>
+                      <input class="productTransportCostInput" value="<%= product.productTransportCost%>" oninput="multipleInputEventHandler(this)"/>
+                      <%}else{%>
+                        <%= product.productTransportCost%>
+                      <%}%>
+                    </div>
+                  </td>
+                  <td class="perProductTransportCostTd">
+                    <div class="perProductTransportCostDiv">
+                      <%= product.perProductTransportCost%>
+                    </div>
+                  </td>
+                  <td class="perProductBuyCostTd">
+                    <div class="perProductBuyCostDiv">
+                      <%= product.perProductBuyPrice%>
+                    </div>
+                  </td>
+                  <td class="perProductPurchaseCostTd">
+                    <div class="perProductPurchaseCostDiv">
+                      <%= product.productPurchasePrice%>
+                    </div>
+                  </td>
+                  <td class="productSellPriceTd">
+                    <div class="productSellPriceDiv">
+                      <%if(edit){%>
+                      <input class="productSellPriceInput" value="<%= product.productSellingPrice%>" oninput="multipleInputEventHandler(this)"/>
+                      <%}else{%>
+                        <%= product.productSellingPrice%>
+                      <%}%>
+                    </div>
+                  </td>
+                  <td class="productProfitTd">
+                    <div class="productProfitDiv">
+                      <%= product.productProfit%>
+                    </div>
+                  </td>
+                  <%if(edit){%>
+                  <td class="buttonTd" rowspan="<%= (product.tags.length)+1%>">
+                    <div class="btn unlink" onclick="unlinkRows(this)">Unlink</div>
+                  </td>
+                  <%}%>
+                </tr>
+                <%product.tags.forEach(tagProduct=>{%>
+                <tr class="tagsTr dataTr">
+                  <td class="productNameTd">
+                    <div class="productNameDiv">
+                       <%if(edit){%>
+                        <select
+                    class="productNameSelecElement"
+                    onchange="selectionChangeHandler(this)"
+                  >
+                    <option value="">নির্বাচন করুন</option>
+                    <%productArr.forEach(prod=>{if(!prod.productIsCombined){%>
+                    <option
+                      value="<%= prod.productName%>"
+                      prod-id="<%= prod._id%>"
+                      <%=prod.productName==tagProduct.productName?"selected":""%>
+                    >
+                      <%= prod.productName%>
+                    </option>
+                    <%}})%>
+                  </select>
+                <%}else{%>
+                  <%=tagProduct.productName%>
+               <% }%>
+                      
+                    </div>
+                  </td>
+                  <td class="productBuyQuantityTd">
+                    <div class="productBuyQuantityDiv">
+                      <%if(edit){%>
+                      <input class="productBuyQuantityInput" value="<%= tagProduct.referenceAmount%>" oninput="multipleInputEventHandler(this)"/>
+                    <%}else{%>
+                      <%= tagProduct.referenceAmount%>
+                    <%}%>
+                    </div>
+                  </td>
+                  <td class="productBuyCostTd previousTransportCostTd">
+                    <div class="productBuyCostDiv">
+                      <%if(edit){%>
+                     <input class="productBuyCostInput" value="<%= tagProduct.productBuyPrice%>" oninput="multipleInputEventHandler(this)"/>
+                      <%}else{%>
+                        <%= tagProduct.productBuyPrice%>
+                      <%}%>
+                    </div>
+                  </td>
+                  <td class="perProductTransportCostTd">
+                    <div class="perProductTransportCostDiv">
+                      <%= tagProduct.perProductTransportCost%>
+                    </div>
+                  </td>
+                  <td class="perProductBuyCostTd">
+                    <div class="perProductBuyCostDiv">
+                      <%= tagProduct.perProductBuyPrice%>
+                    </div>
+                  </td>
+                  <td class="perProductPurchaseCostTd">
+                    <div class="perProductPurchaseCostDiv">
+                      <%= tagProduct.productPurchasePrice%>
+                    </div>
+                  </td>
+                  <td class="productSellPriceTd">
+                    <div class="productSellPriceDiv">
+                      <%if(edit){%>
+                      <input class="productSellPriceInput" value="<%= tagProduct.productSellingPrice%>" oninput="multipleInputEventHandler(this)"/>
+                    <%}else{%>
+                      <%= tagProduct.productSellingPrice%>
+                    <%}%>
+                    </div>
+                  </td>
+                  <td class="productProfitTd previousUnlinkBtn">
+                    <div class="productProfitDiv">
+                      <%= tagProduct.productProfit%>
+                    </div>
+                  </td>
+                </tr>
+                <%})%>
+              </table>
+            </div>
+            <%if(edit){%>
+            <div class="controlBtnContainer">
+              <div class="addNewProduct btn" onclick="createNewRow()">নতুন পন্য যোগ করুন</div>
+              <div class="updateBtn btn" onclick="update()">পরিবর্তন করুন</div>
+            </div>
+            <%}%>
+          </div>
+          <%}else{%>
+          <div class="productSubSection">
+            <div class="text">পন্যের বিক্রয়মূল্য নির্নয় পদ্ধতি</div>
+            <div class="dataTable">
+              <table border="1" cellspacing="0" class="productTable combineTable">
+              <tr>
+              <td>পন্যের নাম</td>
+              <td>পন্যের মোট পরিমান</td>
+              <td>উপকরন</td>
+              <td>উপকরনের পরিমান</td>
+              <td>একক পন্য তৈরিতে <br />প্রয়োজনীয় উপকরনের<br />পরিমান</td>
+              <td>উপকরন সমূহের<br />একক প্রতি মূল্য</td>
+              <td>একক পন্য তৈরিতে <br />প্রয়োজনীয় উপকরনের<br />মূল্য</td>
+              <td>পন্য তৈরিতে মোট খরচ</td>
+              <td>পন্যের বিক্রয়মূল্য</td>
+              <td>পন্যের লাভ</td>
+            </tr>
+            <%product.ingredients.forEach((ingredient,ind,ingArr)=>{%>
+              <tr>
+              <%if(ind==0){%>
+                <td class="combineProductNameTd" rowspan="<%= product.ingredients.length%>">                
+                  <div class="combineProductNameDiv">
+                    <%= product.productName%>
+                  </div>
+              </td>
+              <td class="combineProductTotalQtyTd" rowspan="<%= product.ingredients.length%>">
+                <div class="combineProductQtyDiv">
+                  <%if(edit){%>
+                    <input type="text" class="combineProductQtyInput" value="<%= product.referenceAmount%>" oninput="combineProductMultipleInputHandler(this)">
+                    <%}else{%>
+                      <%= product.referenceAmount%>
+                    <%}%>
+                </div>
+              </td>
+              <%}%>              
+              <td class="combineProductIngredientsNameTd">
+                <div class="combineProductIngredientsNameDiv">
+                  <%if(edit){%>
+                     <select class="combineProductIngredientsNameSelectElement" onchange="selectionChangeHandler(this)">
+                      <option value="">নির্বাচন করুন</option>
+                      <%productArr.filter(prod=>prod.productName!=product.productName).forEach(ing=>{%>
+                        <option value="<%= ing.productName%>" prod-id="<%= ing._id%>"
+                          <%= ingredient.productId.productName==ing.productName?"selected":""%>  
+                        >
+                          <%= ing.productName%>
+                        </option>
+                      <%})%>
+                     </select>
+                  <%}else{%>
+                    <%= ingredient.productId.productName%>
+                  <%}%>
+                </div>
+              </td>
+              <td class="combineProductTotalQtyTd">
+                <div class="combineProductTotalQtyDiv">
+                  <%if(edit){%>
+                    <input type="text" class="combineProductTotalQtyInput"
+                    value="<%= ingredient.totalQuantity%>"
+                    oninput="combineProductMultipleInputHandler(this)"
+                    >
+                  <%}else{%>
+                    <%= ingredient.totalQuantity%>
+                  <%}%>
+                </div>
+              </td>
+              <td class="combineProductPerProductQtyTd">
+                <div class="combineProductPerProductQtyDiv">
+                    <%= ingredient.perProductQuantity%>
+                </div>
+              </td>
+              <td class="combineProductIngredientsPerUnitPriceTd">
+                <div class="combineProductIngredientsPerUnitPriceDiv">
+                    <%= ingredient.productId.productPurchasePrice%>
+                </div>
+              </td>
+              <td class="combineProductPerProductIngredientPriceTd">
+                <div class="combineProductPerProductIngredientPriceDiv">
+                    <%= ingredient.quantityWisePrice%>
+                </div>
+              </td>
+              <%if(ind==0){%>
+                <td class="combineProductTotalCostTd"
+                rowspan="<%= product.ingredients.length%>"
+                >
+                <div class="combineProductTotalCostDiv">
+                    <%= product.productPurchasePrice%>
+                </div>
+              </td>
+              <td class="combineProductSellPriceTd"
+                rowspan="<%= product.ingredients.length%>"
+                >
+                <div class="combineProductSellPriceDiv">
+                  <%if(edit){%>
+                  <input type="text" class="combineProductSellPriceInput"
+                  value="<%= product.productSellingPrice%>"
+                  oninput="combineProductMultipleInputHandler(this)"
+                  >
+                  <%}else{%>
+                    <%= product.productSellingPrice%>
+                  <%}%>
+                </div>
+              </td>
+              <td class="combineProductProfitTd"
+                rowspan="<%= product.ingredients.length%>"
+                >
+                <div class="combineProductProfitDiv">
+                    <%= product.productProfit%>
+                </div>
+              </td>
+              <%}%>
+            </tr>
+            <%})%>
+              </table>
+            </div>
+            <%if(edit){%>
+            <div class="controlBtnContainer">
+              <div class="addNewProduct btn" onclick="addIngredient()">নতুন উপকরণ যোগ করুন</div>
+              <div class="addNewProduct btn" onclick="removeIngredient()">শেষ উপকরণ মুছে ফেলুন</div>
+              <div class="updateBtn btn" onclick="updateCombinedProduct()">পরিবর্তন সংরক্ষণ করুন</div>
+            </div>
+            <%}%>
+          </div>
+          <%}%>
+        </div>
+      </div>
+    </section>
+
+    <%- include("../../template/footer.ejs")%>
+    
+    <!-- hidden items -->
+    <div class="productHiddenInfo" prod-id="<%= product._id%>" prod-user-id="<%= user._id%>" style="display: none;"></div>
+    <script src="https://cdn.jsdelivr.net/npm/he@1.2.0/he.min.js"></script>
+    <%if(edit){%>
+    
+    <script>
+      let productsArr = JSON.parse(
+        he.decode(`<%= JSON.stringify(productArr) %>`)
+      );
+    </script>
+    <%}%>
+    <script>
+      
+      let decodedProduct = JSON.parse(
+        he.decode(`<%= JSON.stringify(product) %>`)
+      );
+    </script>
+    <script src="/js/showProductDetails.js"></script>
+  </body>
+</html> 

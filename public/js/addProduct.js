@@ -46,7 +46,7 @@ saveProductBtn.addEventListener("click", () => {
     let formdata = new FormData();
     formdata.append("productName", productNameValue);
     formdata.append("productBrand", productBrandValue);
-    formdata.append("productKitchenStock", productKitchenStockValue);
+    formdata.append("productStoreStock", productKitchenStockValue);
     formdata.append("productCanteenStock", productCanteenStockValue);
     formdata.append("productQuantityUnit", productQuantityUnitValue);
     formdata.append("productImage", productImageFile);
@@ -59,7 +59,12 @@ saveProductBtn.addEventListener("click", () => {
       [...ingredients].forEach((ingredient) => {
         let selectedDataId =
           ingredient.options[ingredient.selectedIndex].getAttribute("data-id");
-        ingArr.push(selectedDataId);
+        let obj = {
+          productId: selectedDataId,
+          quantity: 0,
+          quantityWisePrice: 0,
+        };
+        ingArr.push(obj);
       });
       formdata.append("ingredients", JSON.stringify(ingArr));
     } else {
@@ -132,19 +137,13 @@ function checkValidity(
     productBrand.placeholder = "Please Input Product Brand Value";
     alert("Please Input Product Brand Value");
     return false;
-  } else if (
-    productKitchenStockValue == "" ||
-    (isNaN(productKitchenStockValue) && productKitchenStockValue !== "0")
-  ) {
+  } else if (isNaN(productKitchenStockValue)) {
     productKitchenStock.style.setProperty("--placeholder-color", "red");
     productKitchenStock.placeholder =
       "Please Input Product Kitchen Stock Value";
     alert("Please Input Product Kitchen Stock Value");
     return false;
-  } else if (
-    productCanteenStockValue == "" ||
-    (isNaN(productCanteenStockValue) && productKitchenStockValue !== "0")
-  ) {
+  } else if (isNaN(productCanteenStockValue)) {
     productCanteenStock.style.setProperty("--placeholder-color", "red");
     productCanteenStock.placeholder =
       "Please Input Product Canteen Stock Value";
@@ -281,3 +280,6 @@ combineProductCheckbox.addEventListener("change", (e) => {
     }
   }
 });
+function removeText(input) {
+  input.value = input.value.replace(/[^0-9.]/g, "");
+}

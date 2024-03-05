@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>সম্পূর্ন রিপোর্ট দেখুন</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css"
+    />
+    <link rel="stylesheet" href="/css/logo.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/seeFullReport.css" />
+  </head>
+  <body>
+    <%- include("../../template/logo.ejs")%>
+    <section class="dateSelectionSection">
+      <div class="dateSelectionContainer">
+        <div class="dateSelector">
+          <div class="lable">শুরুর তারিখঃ</div>
+          <div class="startDateInput">
+            <input type="text" class="dateInput start" />
+          </div>
+        </div>
+        <div class="dateSelector">
+          <div class="lable">শেষ তারিখঃ</div>
+          <div class="endDateInput">
+            <input type="text" class="dateInput end" />
+          </div>
+        </div>
+        <div class="searchBtn btn" onclick="queryReport()">সাবমিট করুন</div>
+      </div>
+    </section>
+    <section class="fullReportSection"></section>
+    <%- include("../../template/footer.ejs")%>
+    <script src="/js/seeFullReport.js"></script>
+  </body>
+</html>

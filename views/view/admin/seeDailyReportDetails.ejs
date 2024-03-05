@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Report</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css"
+    />
+    <link rel="stylesheet" href="/css/logo.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/dailyReport.css" />
+  </head>
+  <body>
+    <%- include("../../template/logo.ejs")%> <%-
+    include("../../template/backlinks.ejs")%>
+    <section class="totalSummarySection">
+      <div class="totalSummaryContainer">
+        <div class="summary">
+          <div class="label">মোট আয়ঃ</div>
+          <div class="data"><%= totalSell%></div>
+        </div>
+        <div class="summary">
+          <div class="label">মোট খরচ</div>
+          <div class="data"><%= totalExpense%></div>
+        </div>
+        <div class="summary">
+          <div class="label">মোট লাভ</div>
+          <div class="data"><%= totalProfit%></div>
+        </div>
+      </div>
+    </section>
+    <section class="dateSection">
+      <div class="dateContainer">
+        <div class="dateDiv">
+          <input type="text" class="dateInput" />
+        </div>
+      </div>
+    </section>
+    <section class="reportSection">
+      <div class="reportContainer">
+        <div class="reportTable">
+          <table border="1" cellspacing="0" class="reportDataTable">
+            <tr class="stickyTr1">
+              <td rowspan="2">ক্র.<br />নং</td>
+              <td rowspan="2" class="productNameTd">পন্যের<br />নাম</td>
+              <td colspan="3">পূর্বের স্টক</td>
+              <td colspan="3">ক্রয়</td>
+              <td rowspan="2">মোট স্টক</td>
+              <td colspan="2">প্রদান</td>
+              <td colspan="3">নতুন স্টক</td>
+              <td colspan="3">বিক্রয়</td>
+              <td rowspan="2">লাভ<br />(একক)</td>
+              <td rowspan="2">মোট লাভ</td>
+              <td rowspan="2">অবশিষ্ট<br />স্টক</td>
+              <td colspan="2">ফেরত</td>
+              <td colspan="3">নীট স্টক</td>
+              <td rowspan="2">স্টক<br />ভ্যালু</td>
+            </tr>
+            <tr class="firstTr stickyTr2">
+              <td>স্টোর</td>
+              <td>ক্যান্টিন</td>
+              <td>মোট</td>
+              <td>দর<br />একক</td>
+              <td>পরিমান</td>
+              <td>টাকা</td>
+              <td>স্টোর</td>
+              <td>ক্যান্টিন</td>
+              <td>স্টোর</td>
+              <td>ক্যান্টিন</td>
+              <td>মোট</td>
+              <td>দর<br />একক</td>
+              <td>পরিমান</td>
+              <td>টাকা</td>
+              <td>স্টোর</td>
+              <td>ক্যান্টিন</td>
+              <td>স্টোর</td>
+              <td>ক্যান্টিন</td>
+              <td>মোট</td>
+            </tr>
+
+            <% productsArr.forEach((product,i,arr)=>{%>
+            <tr class="prevDataRow" report-id="<%= product._id%>">
+              <td class="serialTd">
+                <div class="serialDiv"><%= i+1%></div>
+              </td>
+              <td class="productNameTd">
+                <div class="productNameDiv" prod-id="<%= product.productId%>">
+                  <%= product.productName%>
+                </div>
+              </td>
+              <td class="prevStoreStockTd">
+                <div class="prevStoreStockDiv">
+                  <%= product.previousStock.storeStock%>
+                </div>
+              </td>
+              <td class="prevCanteenStockTd">
+                <div class="prevCanteenStockDiv">
+                  <%= product.previousStock.canteenStock%>
+                </div>
+              </td>
+              <td class="prevTotalStockTd">
+                <div class="prevTotalStockDiv">
+                  <%= product.previousStock.totalStock%>
+                </div>
+              </td>
+              <td class="perProductPurchasePriceTd">
+                <div class="perProductPurchasePriceDiv">
+                  <%= product.buy.perUnitPrice%>
+                </div>
+              </td>
+              <td class="buyQuantityTd">
+                <div class="buyQuantityDiv">
+                  <input
+                    type="text"
+                    class="buyQuantityInput"
+                    oninput="multipleInputHandler(this)"
+                    value="<%= product.buy.quantity%>"
+                  />
+                </div>
+              </td>
+              <td class="buyCostTd">
+                <div class="buyCostDiv"><%= product.buy.totalCost%></div>
+              </td>
+              <td class="totalStockTd">
+                <div class="totalStockDiv"><%= product.totalStock%></div>
+              </td>
+              <td class="takenStoreStockTd">
+                <div class="takenStoreStockDiv">
+                  <input
+                    type="text"
+                    class="takenStoreStockInput"
+                    oninput="multipleInputHandler(this)"
+                    value="<%= product.taken.store%>"
+                  />
+                </div>
+              </td>
+              <td class="takenCanteenStockTd">
+                <div class="takenCanteenStockDiv">
+                  <input
+                    type="text"
+                    class="takenCanteenStockInput"
+                    oninput="multipleInputHandler(this)"
+                    value="<%= product.taken.canteen%>"
+                  />
+                </div>
+              </td>
+              <td class="newStoreStockTd">
+                <div class="newStoreStockDiv">
+                  <%= product.newStock.storeStock%>
+                </div>
+              </td>
+              <td class="newCanteenStockTd">
+                <div class="newCanteenStockDiv">
+                  <%= product.newStock.canteenStock%>
+                </div>
+              </td>
+              <td class="newTotalStockTd">
+                <div class="newTotalStockDiv">
+                  <%= product.newStock.totalStock%>
+                </div>
+              </td>
+              <td class="perProductSellPriceTd">
+                <div class="perProductSellPriceDiv">
+                  <%= product.sell.perUnitPrice%>
+                </div>
+              </td>
+              <td class="sellQuantityTd">
+                <div class="sellQuantityDiv">
+                  <input
+                    type="text"
+                    class="sellQuantityInput"
+                    oninput="multipleInputHandler(this)"
+                    value="<%= product.sell.quantity%>"
+                  />
+                </div>
+              </td>
+              <td class="sellCostTd">
+                <div class="sellCostDiv"><%= product.sell.cost%></div>
+              </td>
+              <td class="perProductProfitTd">
+                <div class="perProductProfitDiv">
+                  <%= product.perUnitProfit%>
+                </div>
+              </td>
+              <td class="totalProductProfitTd">
+                <div class="totalProductProfitDiv">
+                  <%= product.totalProfit%>
+                </div>
+              </td>
+              <td class="remainingStockTd">
+                <div class="remainingStockDiv">
+                  <%= product.remainingStock%>
+                </div>
+              </td>
+              <td class="returnStoreStockTd">
+                <div class="returnStoreStockDiv">
+                  <input
+                    type="text"
+                    class="returnStoreStockInput"
+                    oninput="multipleInputHandler(this)"
+                    value="<%= product.returnStock.store%>"
+                  />
+                </div>
+              </td>
+              <td class="returnCanteenStockTd">
+                <div class="returnCanteenStockDiv">
+                  <input
+                    type="text"
+                    class="returnCanteenStockInput"
+                    oninput="multipleInputHandler(this)"
+                    value="<%= product.returnStock.canteen%>"
+                  />
+                </div>
+              </td>
+              <td class="nitStoreStockTd">
+                <div class="nitStoreStockDiv">
+                  <%= product.netStock.storeStock%>
+                </div>
+              </td>
+              <td class="nitCanteenStockTd">
+                <div class="nitCanteenStockDiv">
+                  <%= product.netStock.canteenStock%>
+                </div>
+              </td>
+              <td class="nitTotalStockTd">
+                <div class="nitTotalStockDiv">
+                  <%= product.netStock.totalNetStock%>
+                </div>
+              </td>
+              <td class="stockValueTd">
+                <div class="stockValueDiv"><%= product.stockValue%></div>
+              </td>
+            </tr>
+            <%});%>
+          </table>
+        </div>
+        <div class="actionBtnsContainer">
+          <div class="actionsBtnsDiv">
+            <div class="btn saveReport" onclick="storeData()">
+              পরিবর্তন করুন
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <%- include("../../template/footer.ejs")%>
+
+    <!-- hidden items -->
+    <div class="user" style="display: none" user-id="<%= user._id%>"></div>
+    <script src="https://cdn.jsdelivr.net/npm/he@1.2.0/he.min.js"></script>
+    <script>
+      let products = JSON.parse(
+        he.decode(`<%= JSON.stringify(productsArr) %>`)
+      );
+      let dt = new Date("<%= date%>");
+      window.addEventListener("load", () => {
+        flatpickr(".dateInput", {
+          dateFormat: "d-m-Y", // Date format
+          minDate: new Date().fp_incr(-30 * 365), // Minimum selectable date is today
+          maxDate: new Date().fp_incr(30), // Maximum selectable date is 30 days from today
+          disableMobile: true, // Disable mobile-friendly mode
+          defaultDate: dt, // Set the default selected date to today
+        });
+      });
+    </script>
+    <script src="/js/seeDailyReportDetails.js"></script>
+  </body>
+</html>

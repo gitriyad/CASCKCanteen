@@ -50,6 +50,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(rootDir, "public")));
 
+// Rendering route middleware
+app.use(middleware.getUrl);
+
 // Rendering Routes
 
 app.use(authRoutes);

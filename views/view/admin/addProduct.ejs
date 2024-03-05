@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="/css/addProduct.css" />
   </head>
   <body>
-    <%- include("../../template/logo.ejs")%>
-
+    <%- include("../../template/logo.ejs")%> <%-
+    include("../../template/backlinks.ejs")%>
     <section class="addProductSection">
       <div class="addProductContainer">
         <div class="header">
@@ -29,6 +29,7 @@
                     id="productName"
                     class="productName"
                     list="mainProductsList"
+                    autocomplete="off"
                   />
                 </td>
                 <td>পন্যের ব্র্যান্ড/ভেন্ডরঃ</td>
@@ -43,11 +44,9 @@
                 <td>পন্যের কিচেন স্টকঃ</td>
                 <td>
                   <input
-                    type="number"
-                    name="productKitchenStock"
-                    id="productKitchenStock"
+                    type="text"
                     class="productKitchenStock"
-                    step="0.1"
+                    oninput="removeText(this)"
                   />
                 </td>
               </tr>
@@ -55,11 +54,9 @@
                 <td>পন্যের ক্যান্টিন স্টকঃ</td>
                 <td>
                   <input
-                    type="number"
-                    name="productCanteenStock"
-                    id="productCanteenStock"
+                    type="text"
                     class="productCanteenStock"
-                    step="0.1"
+                    oninput="removeText(this)"
                   />
                 </td>
                 <td>পন্যের ক্রয়/বিক্রয় এককঃ</td>
@@ -71,6 +68,10 @@
                   >
                     <option value="">নির্বাচন করুন</option>
                     <option value="প্রতি কেজি.">প্রতি কেজি.</option>
+                    <option value="প্রতি কেজি.">প্রতি লিটার</option>
+                    <option value="প্রতি কেজি.">প্রতি বক্স</option>
+                    <option value="প্রতি কেজি.">প্রতি প্যাকেট</option>
+                    <option value="প্রতি কেজি.">প্রতি বোতল</option>
                     <option value="প্রতি একক">প্রতি একক</option>
                   </select>
                 </td>

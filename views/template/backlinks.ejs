@@ -1,0 +1,10 @@
+<head>
+  <link rel="stylesheet" href="/css/backlinks.css" />
+</head>
+<section class="backLinks">
+  <% backUrl.forEach(urlObj=>{%>
+  <div class="backlinks btn" onclick="window.location.href='<%=urlObj.link%>'">
+    <%= urlObj.text%>
+  </div>
+  <%})%>
+</section>

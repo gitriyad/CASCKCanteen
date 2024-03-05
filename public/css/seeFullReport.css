@@ -1,0 +1,25 @@
+.dateSelectionContainer {
+  display: flex;
+  width: 90vw;
+  margin: 0 auto;
+  gap: 1rem;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.dateSelector {
+  display: flex;
+  gap: 1rem;
+}
+.lable {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+input.dateInput {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 900;
+}
+.searchBtn.btn {
+  width: fit-content;
+  padding: 0.5rem 1rem !important;
+}

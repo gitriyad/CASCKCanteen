@@ -39,29 +39,75 @@
       <div class="actionBtns">
         <div
           class="addProduct btn"
-          onclick="window.location.href='/admin/addProduct'"
+          onclick="window.location.href='/admin/addProduct%>'"
         >
           পন্য সংযোজন
         </div>
-        <div class="seeProducts btn">পন্য সমূহ দেখুন</div>
+        <div
+          class="seeProducts btn"
+          onclick="window.location.href='/admin/showProducts'"
+        >
+          পন্য সমূহ দেখুন
+        </div>
         <div
           class="setProductPrice btn"
-          onclick="window.location.href='/admin/calculateProductPrice'"
+          onclick="window.location.href='/admin/calculateProductPrice%>'"
         >
-          পন্যের দাম হিসাব করুন
+          পন্যের দাম নির্ধারণ করুন
         </div>
-        <div class="seeProductPrice btn">পন্যের দাম দেখুন</div>
-        <div class="addAsset btn">সম্পদ সংযোজন</div>
-        <div class="seeAssets btn">সম্পদ সমূহ দেখুন</div>
-        <div class="addExpense btn">ব্যায় সংযোজন</div>
-        <div class="seeExpenses btn">ব্যায় সমূহ দেখুন</div>
-        <div class="addReport btn">দৈনিক রিপোর্ট তৈরি করুন</div>
-        <div class="seeReports btn">পূর্বের রিপোর্ট সমূহ দেখুন</div>
-        <div class="genReport btn">সম্পূর্ন রিপোর্ট দেখুন</div>
+        <div
+          class="addAsset btn"
+          onclick="window.location.href='/admin/addAsset'"
+        >
+          সম্পদ সংযোজন
+        </div>
+        <div
+          class="seeAssets btn"
+          onclick="window.location.href='/admin/seeAsset'"
+        >
+          সম্পদ সমূহ দেখুন
+        </div>
+        <div
+          class="seeIncome btn"
+          onclick="window.location.href='/admin/seeIncome'"
+        >
+          আয় সমূহ দেখুন
+        </div>
+        <div
+          class="addExpense btn"
+          onclick="window.location.href='/admin/addExpense'"
+        >
+          ব্যায় সংযোজন
+        </div>
+        <div
+          class="seeExpenses btn"
+          onclick="window.location.href='/admin/seeExpense'"
+        >
+          ব্যায় সমূহ দেখুন
+        </div>
+        <div
+          class="addReport btn"
+          onclick="window.location.href='/admin/dailyReport%>'"
+        >
+          দৈনিক রিপোর্ট তৈরি করুন
+        </div>
+        <div
+          class="seeReports btn"
+          onclick="window.location.href='/admin/seePreviousReports'"
+        >
+          পূর্বের রিপোর্ট সমূহ দেখুন
+        </div>
+        <div
+          class="genReport btn"
+          onclick="window.location.href='/admin/seeFullReport'"
+        >
+          সম্পূর্ন রিপোর্ট দেখুন
+        </div>
         <div class="genSummary btn">সংক্ষিপ্ত রিপোর্ট দেখুন</div>
       </div>
     </section>
     <%- include("../../template/footer.ejs")%>
+
     <script src="/js/adminDashboard.js"></script>
   </body>
 </html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ব্যয় সংযোজন করুন</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css"
+    />
+    <link rel="stylesheet" href="/css/logo.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/addExpense.css" />
+  </head>
+  <body>
+    <%- include("../../template/logo.ejs")%> <%-
+    include("../../template/backlinks.ejs")%>
+    <section class="addExpenseSection">
+      <div class="addExpenseContainer">
+        <div class="expense">
+          <div class="date">
+            <div class="lable">তারিখঃ</div>
+            <input type="text" class="dateInput" />
+          </div>
+          <div class="category">
+            <div class="lable">ক্যাটাগরিঃ</div>
+            <div class="inputDiv">
+              <input type="text" class="expenseCategory" list="expenseList" />
+              <datalist id="expenseList">
+                <% categories.forEach(category=>{%>
+                <option value="<%= category%>"><%})%></option>
+              </datalist>
+            </div>
+          </div>
+          <div class="amoutn">
+            <div class="lable">খরচঃ</div>
+            <input type="text" class="expenseCost" />
+          </div>
+        </div>
+        <div class="submitExpense btn" onclick="submitExpense()">
+          সংরক্ষণ করুন
+        </div>
+      </div>
+    </section>
+    <%- include("../../template/footer.ejs")%>
+    <!-- hidden items -->
+    <div class="user" user-id="<%= user._id%>"></div>
+    <script src="/js/addExpense.js"></script>
+  </body>
+</html>

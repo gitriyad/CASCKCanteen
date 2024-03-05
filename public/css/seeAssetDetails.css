@@ -1,0 +1,49 @@
+.topContainer {
+  display: flex;
+  margin: 0 auto 1rem auto;
+  width: 90vw;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.3rem;
+  font-weight: 800;
+  background: rgb(10 88 5 / 21%);
+  padding: 0.5rem 0.2rem;
+}
+.assetContainer {
+  display: flex;
+  width: 90vw;
+  margin: 0 auto;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.asset {
+  display: flex;
+  flex: 1 1 21rem;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+  gap: 0 0.5rem;
+}
+.leftPart {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 11rem;
+  gap: 0.5rem 0rem;
+}
+.detailsGroup {
+  display: flex;
+  width: 11rem;
+  justify-content: space-between;
+}
+.data {
+  min-width: 4rem;
+}
+.rightPart {
+  flex: 1 1 9rem;
+}
+.image {
+  height: 100%;
+  width: 100%;
+  background-position: left top;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}

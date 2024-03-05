@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ব্যায়ের বিবরণ</title>
+    <link rel="stylesheet" href="/css/logo.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/seeExpenseDetails.css" />
+  </head>
+  <body>
+    <%- include("../../template/logo.ejs")%> <%-
+    include("../../template/backlinks.ejs")%>
+    <section class="summarySection">
+      <div class="summaryContainer">
+        <% let dt=new Date(date); let
+        day=String(dt.getDate()).padStart(2,"0");let
+        mon=String(dt.getMonth()+1).padStart(2,"0");let
+        year=String(dt.getFullYear()).padStart(2,"0");dt=[day,mon,year].join("-")%>
+        <div class="date">তারিখঃ <%= dt%></div>
+        <div class="totalCost">মোট খরচঃ <%= totalCost%></div>
+      </div>
+    </section>
+    <section class="expenseSection">
+      <div class="expenseContainer">
+        <%expenseArr.forEach(exp=>{%> <%if(exp.product){%>
+        <div
+          class="expense"
+          style="
+            background-image: url('/upload/products/<%= exp.brand%>/<%= exp.name%>/<%= exp.image%>');
+          "
+        >
+          <div class="details">
+            <div class="group">
+              <div class="lable">ব্যায়ের খাতঃ</div>
+              <div class="data"><%=exp.name%></div>
+            </div>
+            <div class="group">
+              <div class="lable">পরিমানঃ</div>
+              <div class="data"><%=exp.quantity%></div>
+            </div>
+            <div class="group">
+              <div class="lable">একক দরঃ</div>
+              <div class="data"><%=exp.unitCost%></div>
+            </div>
+            <div class="group">
+              <div class="lable">মোট খরচঃ</div>
+              <div class="data"><%=exp.cost%></div>
+            </div>
+            <div class="group">
+              <div class="lable">ব্যয়কারীঃ</div>
+              <div class="data"><%=exp.uploadedBy%></div>
+            </div>
+          </div>
+        </div>
+        <%}else{%>
+        <div
+          class="expense"
+          style="background-image: url('/upload/expenseBackground.png')"
+        >
+          <div class="details">
+            <div class="group">
+              <div class="lable">ব্যায়ের খাতঃ</div>
+              <div class="data"><%=exp.name%></div>
+            </div>
+            <div class="group">
+              <div class="lable">মোট খরচঃ</div>
+              <div class="data"><%=exp.cost%></div>
+            </div>
+            <div class="group">
+              <div class="lable">ব্যয়কারীঃ</div>
+              <div class="data"><%=exp.uploadedBy%></div>
+            </div>
+          </div>
+        </div>
+
+        <%}})%>
+      </div>
+    </section>
+    <%- include("../../template/footer.ejs")%>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>পন্য সমূহ দেখুন</title>
+    <script
+      src="https://kit.fontawesome.com/978d3e2caa.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="/css/logo.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/showProducts.css" />
+  </head>
+  <body>
+    <%- include("../../template/logo.ejs")%> <%-
+    include("../../template/backlinks.ejs")%>
+    <section class="productDispalySection">
+      <div class="productDisplayContainer">
+        <% products.forEach(product=>{%>
+        <div
+          class="product"
+          style="
+            background-image: url('/upload/products/<%= product.productBrand%>/<%= product.productName%>/<%= product.productImage%>');
+          "
+        >
+          <div class="topRow">
+            <div class="productName">
+              <div class="icon">
+                <i class="fa-brands fa-galactic-senate"></i>
+              </div>
+              <div class="text"><%= product.productName%></div>
+            </div>
+            <div class="producBrand">
+              <div class="icon">
+                <i class="fa-solid fa-truck-fast"></i>
+              </div>
+              <div class="text"><%= product.productBrand%></div>
+            </div>
+          </div>
+          <div class="middleRow">
+            <div class="buttonContainer">
+              <div
+                class="viewBtn btn"
+                onclick="window.location.href='/admin/showProductDetails/<%= product._id%>'"
+              >
+                দেখুন
+              </div>
+              <div
+                class="editBtn btn"
+                onclick="window.location.href='/admin/updateProduct/<%= product._id%>'"
+              >
+                পরিবর্তন
+              </div>
+              <div
+                class="deleteBtn btn"
+                onclick="window.location.href='/admin/deleteProduct/<%= product._id%>'"
+              >
+                মুছে ফেলুন
+              </div>
+            </div>
+          </div>
+          <div class="bottomRow">
+            <div class="producStock">
+              <div class="icon">
+                <i class="fa-solid fa-warehouse"></i>
+              </div>
+              <div class="text"><%= product.productTotalStock%></div>
+            </div>
+            <div class="productProfit">
+              <div class="icon">
+                <i class="fa-solid fa-sack-dollar"></i>
+              </div>
+              <div class="text"><%= product.productProfit%></div>
+            </div>
+            <div class="productUploader">
+              <div class="icon">
+                <i class="fa-solid fa-user-tie"></i>
+              </div>
+              <div class="text"><%= product.uploadedBy.userShortName%></div>
+            </div>
+          </div>
+        </div>
+        <%})%>
+      </div>
+    </section>
+
+    <%-include("../../template/footer.ejs")%>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>দিন ভিত্তিক বিক্রয় হিসাব</title>
+    <link rel="stylesheet" href="/css/logo.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/seeDailyIncomeDetails.css" />
+  </head>
+  <body>
+    <%- include("../../template/logo.ejs")%> <%-
+    include("../../template/backlinks.ejs")%>
+    <section class="incomeSection">
+      <div class="incomeContainer">
+        <% sellsArr.forEach(sell=>{%>
+        <div class="income">
+          <div class="leftPart">
+            <div class="detailsGroup">
+              <div class="label">পণ্যের নামঃ</div>
+              <div class="data"><%= sell.name%></div>
+            </div>
+            <div class="detailsGroup">
+              <div class="label">পরিমানঃ</div>
+              <div class="data"><%= sell.quantity%></div>
+            </div>
+            <div class="detailsGroup">
+              <div class="label">একক দরঃ</div>
+              <div class="data"><%= sell.perQuantityPrice%></div>
+            </div>
+            <div class="detailsGroup">
+              <div class="label">মোট মূল্যঃ</div>
+              <div class="data"><%= sell.totalPrice%></div>
+            </div>
+            <div class="detailsGroup">
+              <div class="label">বিক্রয়কারীঃ</div>
+              <div class="data"><%= sell.shortName%></div>
+            </div>
+          </div>
+          <div class="rightPart">
+            <div
+              class="image"
+              style="
+                background-image: url('/upload/products/<%= sell.brand%>/<%= sell.name%>/<%= sell.image%>');
+              "
+            ></div>
+          </div>
+        </div>
+        <%})%>
+      </div>
+    </section>
+    <%- include("../../template/footer.ejs")%>
+  </body>
+</html>

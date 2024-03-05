@@ -9,13 +9,23 @@
     <link rel="stylesheet" href="/css/calculateProductPrice.css" />
   </head>
   <body>
-    <%- include("../../template/logo.ejs")%>
-
+    <%- include("../../template/logo.ejs")%> <%-
+    include("../../template/backlinks.ejs")%>
     <section class="productSectionChoosingSection">
-      <div class="productSectionChoosingSectionContainer"></div>
+      <div class="productSectionChoosingSectionContainer">
+        <div class="btn singleProduct" onclick="productTypeTableChanger(this)">
+          একটি পন্য
+        </div>
+        <div
+          class="btn MultipleProduct"
+          onclick="productTypeTableChanger(this)"
+        >
+          একাধিক উপকরন বিশিষ্ট পন্য
+        </div>
+      </div>
     </section>
 
-    <section class="singleProductSection">
+    <section class="singleProductSection" style="display: none">
       <div class="singleProductContainer">
         <div class="singleProductTable">
           <table border="1" cellspacing="0" class="singleProductDataTable">
@@ -158,17 +168,133 @@
             </tr>
           </table>
         </div>
-      </div>
-    </section>
-    <section class="singleProductWithMultipleItemSection"></section>
-    <section class="actionControlBtnSection">
-      <div class="actionControlBtnContainer">
-        <div class="addNewProductBtn btn" onclick="addNewProduct()">
-          নতুন পন্য যোগ করুন
+        <div class="actionControlBtnContainer">
+          <div class="addNewProductBtn btn" onclick="addNewProduct()">
+            নতুন পন্য যোগ করুন
+          </div>
+          <div class="submitBtn btn" onclick="submitProducts()">
+            সংরক্ষণ করুন
+          </div>
         </div>
-        <div class="submitBtn btn" onclick="submitProducts()">সংরক্ষণ করুন</div>
       </div>
     </section>
+    <section class="singleProductWithMultipleItemSection" style="display: none">
+      <div class="singleProductWithMultipleItemContainer">
+        <div class="singleProductWithMultipleItemTableContainer">
+          <table
+            border="1"
+            cellspacing="0"
+            class="singleProductWithMultipleItemDataTable"
+          >
+            <tr>
+              <td>পন্যের নাম</td>
+              <td>পন্যের মোট পরিমান</td>
+              <td>উপকরন</td>
+              <td>উপকরনের পরিমান</td>
+              <td>একক পন্য তৈরিতে <br />প্রয়োজনীয় উপকরনের<br />পরিমান</td>
+              <td>উপকরন সমূহের<br />একক প্রতি মূল্য</td>
+              <td>একক পন্য তৈরিতে <br />প্রয়োজনীয় উপকরনের<br />মূল্য</td>
+              <td>পন্য তৈরিতে মোট খরচ</td>
+              <td>পন্যের বিক্রয়মূল্য</td>
+              <td>পন্যের লাভ</td>
+            </tr>
+            <tr class="firstTr">
+              <td class="multipleProductNameTd">
+                <div class="multipleProductNameDiv">
+                  <select
+                    class="multipleProductNameSelectElement"
+                    onchange="selectMultipleEventHandler(this)"
+                  >
+                    <option value="">নির্বাচন করুন</option>
+                    <%products.forEach(product=>{if(product.productIsCombined){%>
+                    <option
+                      value="<%= product.productName%>"
+                      data-productId="<%= product._id%>"
+                    >
+                      <%= product.productName%>
+                    </option>
+                    <% }})%>
+                  </select>
+                </div>
+              </td>
+              <td class="multipleProductTotalAmountTd">
+                <div class="multipleProductTotalAmountDiv">
+                  <input
+                    type="text"
+                    class="multipleProductTotalAmountInput"
+                    oninput="multipleInputHandler(this)"
+                  />
+                </div>
+              </td>
+              <td class="multipleProductIngredientTd">
+                <div class="multipleProductIngredientDiv"></div>
+              </td>
+              <td class="multipleProductIngredientAmountTd">
+                <div class="multipleProductIngredientAmountDiv">
+                  <input
+                    type="text"
+                    class="multipleProductIngredientAmountInput"
+                    oninput="multipleInputHandler(this)"
+                  />
+                </div>
+              </td>
+              <td class="multipleProductIngredientTotalAmountTd">
+                <div class="multipleProductIngredientTotalAmountDiv">
+                  <input
+                    type="text"
+                    class="multipleProductIngredientTotalAmountInput"
+                  />
+                </div>
+              </td>
+              <td class="perMultipleProductIngredientAmountTd">
+                <div class="perMultipleProductIngredientAmountDiv">
+                  <input
+                    type="text"
+                    class="perMultipleProductIngredientAmountInput"
+                  />
+                </div>
+              </td>
+              <td class="perMultipleProductIngredientPriceTd">
+                <div class="perMultipleProductIngredientPriceDiv">
+                  <input
+                    type="text"
+                    class="perMultipleProductIngredientPriceInput"
+                  />
+                </div>
+              </td>
+              <td class="multipleProductPriceTd">
+                <div class="multipleProductPriceDiv">
+                  <input type="text" class="multipleProductPriceInput" />
+                </div>
+              </td>
+              <td class="multipleProductSellinPriceTd">
+                <div class="multipleProductSellinPriceDiv">
+                  <input
+                    type="text"
+                    class="multipleProductSellinPriceInput"
+                    oninput="multipleInputHandler(this)"
+                  />
+                </div>
+              </td>
+              <td class="multipleProductProfitTd">
+                <div class="multipleProductProfitDiv">
+                  <input type="text" class="multipleProductProfitInput" />
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="actionControlBtnContainer">
+          <div class="addNewProductBtn btn" onclick="addNewMultipleProduct()">
+            নতুন পন্য যোগ করুন
+          </div>
+          <div class="submitBtn btn" onclick="submitMultipleProducts()">
+            সংরক্ষণ করুন
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="actionControlBtnSection"></section>
 
     <!-- hidden item -->
     <select class="mainProductSelectElement" style="display: none">
@@ -183,7 +309,21 @@
       </option>
       <%}})%>
     </select>
-    <select class="updateProductSelectElement"></select>
+
+    <select class="mainMultipleProductSelectElement" style="display: none">
+      <option value="">নির্বাচন করুন</option>
+      <%products.forEach(product=>{if(product.productIsCombined){%>
+
+      <option
+        value="<%= product.productName%>"
+        data-productId="<%= product._id%>"
+      >
+        <%= product.productName%>
+      </option>
+      <%}})%>
+    </select>
+
+    <select class="updateProductSelectElement" style="display: none"></select>
     <div class="user" style="display: none" data-user="<%= user._id%>"></div>
 
     <%- include("../../template/footer.ejs")%>
