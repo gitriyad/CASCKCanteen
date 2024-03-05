@@ -903,12 +903,16 @@ exports.postFullReport = async (req, res, next) => {
   let topIncome = await Sell.getTopIncome(startDate, endDate);
   let topProducts = getTopProducts(topExpense, topProfit, topSell, topIncome);
   let productsReport = await getProductWiseDailyReport(startDate, endDate);
-  productsReport.forEach((proObj) => {
-    if (topProducts[proObj._id]) {
-      proObj.top = topProducts[proObj._id].top;
-    }
-  });
-  console.log("pro", productsReport);
+  if (productsReport.length > 0) {
+    productsReport.forEach((proObj) => {
+      if (topProducts[proObj._id]) {
+        proObj.top = topProducts[proObj._id].top;
+      }
+    });
+    res.send(productsReport);
+  } else {
+    res.status(500).send("No Data Found");
+  }
 };
 
 async function getProductWiseDailyReport(startDate, endDate) {
@@ -956,6 +960,8 @@ async function getProductWiseDailyReport(startDate, endDate) {
       $group: {
         _id: "$productId",
         productName: { $first: "$product.productName" },
+        productBrand: { $first: "$product.productBrand" },
+        productImage: { $first: "$product.productImage" },
         previousPerUnitPurchaseCost: { $first: "$buy.perUnitPrice" },
         previousPerUnitSellPrice: { $first: "$sell.perUnitPrice" },
         totalSellQuantity: { $sum: "$sell.quantity" },
@@ -979,6 +985,8 @@ async function getProductWiseDailyReport(startDate, endDate) {
       $project: {
         _id: 1,
         productName: 1,
+        productBrand: 1,
+        productImage: 1,
         previousPerUnitPurchaseCost: 1,
         totalPurchase: 1,
         totalProductPurchaseCost: 1,
