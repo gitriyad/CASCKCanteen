@@ -1,0 +1,199 @@
+.productDetailsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 90vw;
+  margin: 0 auto;
+}
+.product {
+  display: flex;
+  width: 100%;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+}
+.left {
+  width: 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1 1 20rem;
+}
+.group {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  font-weight: 800;
+  align-items: center;
+  padding: 0.5rem;
+}
+.group:nth-child(2n + 1) {
+  background: rgba(255, 0, 0, 0.1);
+}
+.group:nth-child(2n) {
+  background: rgba(0, 0, 0, 0.1);
+}
+.lable {
+  width: 10rem;
+}
+.data {
+  width: 12rem;
+}
+.right {
+  width: 20rem;
+  border: 1px solid black;
+  min-height: 20rem;
+  flex: 1 1 20rem;
+}
+.image {
+  height: 100%;
+  width: 100%;
+  background-position: left top;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.profileGroup {
+  display: flex;
+  align-items: center;
+}
+.userImage {
+  height: 3rem;
+  width: 3rem;
+  margin-left: auto;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  background-position: center center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.dateWiseDetails {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.singleDateDetails {
+  display: flex;
+  flex-direction: column;
+  width: 12rem;
+  flex: 1 1 12rem;
+  padding: 0.5rem;
+  font-weight: 900;
+  gap: 1rem;
+  align-items: center;
+}
+.singleDateDetails:nth-child(2n + 1) {
+  background: rgba(0, 0, 255, 0.2);
+}
+.singleDateDetails:nth-child(2n) {
+  background: rgba(0, 255, 0, 0.2);
+}
+.date {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.date .lable {
+  width: 5rem;
+}
+.date .data {
+  width: 6rem;
+}
+.detailGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+}
+.lable.head {
+  width: 100%;
+  text-align: center;
+  font-size: 1.5rem;
+}
+.buyGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-self: flex-start;
+  width: 100%;
+}
+.groupItem {
+  display: flex;
+  justify-content: space-between;
+}
+.groupItem .lable {
+  min-width: 5rem;
+}
+.groupItem .data {
+  width: 3rem;
+}
+section.btnController {
+  width: 90vw;
+  margin: 1rem auto;
+  display: flex;
+  gap: 0.5rem;
+}
+/* print */
+@media print {
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .btnController {
+    display: none;
+  }
+  .productDetailsContainer {
+    gap: 1rem;
+  }
+  .logoContainer {
+    display: flex;
+    width: 90vw;
+    margin: 2rem auto;
+    justify-content: center;
+    align-items: center;
+  }
+  .collegeLogoIcon,
+  .LogoAuthIcon {
+    height: 5rem;
+    width: 5rem;
+    background-position: center;
+    background-size: 100% 100%;
+    flex: 1 1 5rem;
+  }
+  .collegeLogoName {
+    flex: 1 1 20rem;
+  }
+  .LogoName {
+    text-align: center;
+    font-weight: 900;
+    color: var(--var-secondary-color);
+    font-size: 1.2rem;
+  }
+  .LogoSideText {
+    text-align: right;
+    color: var(--var-primary-color);
+    font-size: 1rem;
+  }
+  .footerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 6vh;
+    width: 90vw;
+    margin: 0rem auto;
+    background-color: rgb(63 11 133 / 20%);
+    padding: 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .section.btnController {
+    margin: 0;
+    display: none;
+  }
+  .footerSection {
+    margin: -1.2rem 0 0 0;
+  }
+}

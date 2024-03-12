@@ -4,6 +4,7 @@ let fs = require("fs-extra");
 let path = require("path");
 let rootDir = require("../utility/root");
 let mongoose = require("mongoose");
+const pdf = require("html-pdf");
 
 // importing models
 let Product = require("../model/product");
@@ -897,23 +898,208 @@ exports.postFullReport = async (req, res, next) => {
       return new Date(`${y}-${m}-${d}`);
     }
   );
-  let topExpense = await Expense.getTop(startDate, endDate);
-  let topProfit = await Profit.getTop(startDate, endDate);
-  let topSell = await Sell.getTopSell(startDate, endDate);
-  let topIncome = await Sell.getTopIncome(startDate, endDate);
-  let topProducts = getTopProducts(topExpense, topProfit, topSell, topIncome);
-  let productsReport = await getProductWiseDailyReport(startDate, endDate);
+
+  let { productsReport, totalExpense } = await getProductWiseDailyReport(
+    startDate,
+    endDate
+  );
   if (productsReport.length > 0) {
+    let topExpense = getTop(productsReport, "totalProductPurchaseCost");
+    let topProfit = getTop(productsReport, "totalProfit");
+    let topSell = getTop(productsReport, "totalSellQuantity");
+    let topIncome = getTop(productsReport, "totalIncome");
+    let topProducts = getTopProducts(topExpense, topProfit, topSell, topIncome);
     productsReport.forEach((proObj) => {
       if (topProducts[proObj._id]) {
         proObj.top = topProducts[proObj._id].top;
       }
     });
-    res.send(productsReport);
+    let expenses = await Expense.find({
+      date: { $gte: startDate, $lte: endDate },
+    });
+    productsReport.sort((a, b) => a.productName.localeCompare(b.productName));
+    //generatePDF(res, startDate, endDate);
+    res.send({
+      productsArr: productsReport,
+      totalExpense: totalExpense,
+      expenseArr: expenses,
+    });
   } else {
     res.status(500).send("No Data Found");
   }
 };
+
+async function generatePDF(res, startDate, endDate) {
+  let dateRangeString = getLocalDateString([startDate, endDate]).join("-");
+  let pdfFileUploadDir = path.join(
+    rootDir,
+    "public",
+    "upload",
+    "pdf",
+    `${dateRangeString}.pdf`
+  );
+  let data = await getDateWiseData(startDate, endDate);
+  let html = generateHTML(data);
+  console.log(html);
+  try {
+    pdf.create(html).toFile(pdfFileUploadDir, (err, res) => {
+      if (err) return console.log(err);
+      console.log(res);
+    });
+  } catch (genError) {
+    res.status(500).send(genError.message);
+  }
+}
+function getLocalDateString(arr) {
+  return arr.map((date) => {
+    let [m, d, y] = date.toLocaleDateString().split("/");
+    return `${d.padStart(2, "0")}-${m.padStart(2, "0")}-${y}`;
+  });
+}
+async function getDateWiseData(startDate, endDate) {
+  let dateObj = {};
+  let productArr = await DailyReport.find({
+    date: { $gte: startDate, $lte: endDate },
+  }).populate("productId");
+  productArr.forEach((product) => {
+    let [m, d, y] = new Date(product.date).toLocaleDateString().split("/");
+    let date = `${d.padStart(2, "0")} - ${m.padStart(2, "0")} - ${y}`;
+    if (dateObj[date]) {
+      dateObj[date].push({
+        productName: product.productName,
+        buy: {
+          quantity: product.buy.quantity,
+          unitPrice: product.buy.perUnitPrice,
+          total: product.buy.totalCost,
+        },
+        sell: {
+          quantity: product.sell.quantity,
+          unitPrice: product.sell.perUnitPrice,
+          total: product.sell.cost,
+        },
+      });
+    } else {
+      dateObj[date] = [
+        {
+          productName: product.productName,
+          buy: {
+            quantity: product.buy.quantity,
+            unitPrice: product.buy.perUnitPrice,
+            total: product.buy.totalCost,
+          },
+          sell: {
+            quantity: product.sell.quantity,
+            unitPrice: product.sell.perUnitPrice,
+            total: product.sell.cost,
+          },
+        },
+      ];
+    }
+  });
+  return dateObj;
+}
+function generateHTML(data) {
+  let html = `
+  <html>
+    <head>
+      <style>
+         .header{
+        	display:flex;
+        	justify-content:center;
+          text-align:center;
+        }
+        .dateTd{
+        	font-size:.8rem
+        }
+        .tableContainer{
+          display: flex;
+          justify-content:center;
+          aling-itmes:center;
+        }
+        table{
+          width:90vw;
+          margin: 0 auto;
+        }
+        table td{
+          min-width: 5rem !important;
+          word-break:break-all;
+        text-align:center
+        }
+        tr:nth-child(-n+2){
+        	font-weight:800;
+        }
+      </style>
+    </head>
+    <body>
+    <div class="productTableDiv">
+      <div class="header">
+        <h1 class="headline">পণ্যের বিবরণ</h1>
+      </div>
+      <div class="tableContainer">
+        <table class="productTable" border="1" cellspacing="0">
+          <tr>
+            <td rowspan="2">তারিখ</td>
+            <td rowspan="2">পণ্যের নাম</td>
+            <td colspan="3" align="center">ক্রয়</td>
+            <td colspan="3" align="center">বিক্রয়</td>
+          </tr>
+          <tr>
+            <td >পরিমান</td>
+            <td >দর</td>
+            <td >মোট</td>
+            <td >পরিমান</td>
+            <td >দর</td>
+            <td >মোট</td>
+          </tr>
+          
+          ${Object.keys(data)
+            .map(
+              (date) => `
+          <tr>
+            <td rowspan="${data[date].length}" class="dateTd">${date}</td>
+            <td>${data[date][0].productName}</td>
+            <td>${data[date][0].buy.quantity}</td>
+            <td>${data[date][0].buy.unitPrice}</td>
+            <td>${data[date][0].buy.total}</td>
+            <td>${data[date][0].sell.quantity}</td>
+            <td>${data[date][0].sell.unitPrice}</td>
+            <td>${data[date][0].sell.total}</td>
+            </tr>
+            ${data[date]
+              .map(
+                (info, i, arr) =>
+                  `
+                ${
+                  i > 0
+                    ? `
+                    <tr>
+                      <td>${info.productName}</td>
+                      <td>${info.buy.quantity}</td>
+                      <td>${info.buy.unitPrice}</td>
+                      <td>${info.buy.total}</td>
+                      <td>${info.sell.quantity}</td>
+                      <td>${info.sell.unitPrice}</td>
+                      <td>${info.sell.total}</td>
+                    </tr>
+                `
+                    : ""
+                }
+              
+              `
+              )
+              .join("")}
+          </tr>
+            `
+            )
+            .join("")}
+        </table>
+      </div>
+    </div>
+    </body>
+  </html>
+  `;
+  return html;
+}
 
 async function getProductWiseDailyReport(startDate, endDate) {
   return DailyReport.aggregate([
@@ -1011,7 +1197,14 @@ async function getProductWiseDailyReport(startDate, endDate) {
     },
   ])
     .then((productReport) => {
-      return productReport;
+      let totalExpense = productReport.reduce(
+        (sum, pro) => sum + pro.totalProductPurchaseCost,
+        0
+      );
+      return {
+        productsReport: productReport,
+        totalExpense: totalExpense,
+      };
     })
     .catch((err) => {
       return [];
@@ -1020,6 +1213,16 @@ async function getProductWiseDailyReport(startDate, endDate) {
 exports.getFullReport = (req, res, next) => {
   res.render("admin/seeFullReport");
 };
+function getTop(arr, control) {
+  return [
+    ...new Set(
+      arr
+        .sort((a, b) => b[control] - a[control])
+        .filter((pro, i, parr) => parr[0][control] == pro[control])
+        .map((pro) => pro._id)
+    ),
+  ];
+}
 function getTopProducts(topExpense, topProfit, topSell, topIncome) {
   let topProducts = {};
   topExpense.forEach((pro) => {
@@ -1295,5 +1498,40 @@ exports.updateDailyReport = (req, res, next) => {
     )
     .catch((reportUpdateError) => {
       res.status(500).send(reportUpdateError);
+    });
+};
+// exports.previewPrint = (req, res, next) => {
+//   res.send(`/upload/pdf/${req.params.pdfFile}.pdf`);
+// };
+exports.fetchSingleProductDetails = (req, res, next) => {
+  let productId = new mongoose.Types.ObjectId(String(req.params.productId));
+  let [startDate, endDate] = [req.params.startDate, req.params.endDate].map(
+    (date) => {
+      let [d, m, y] = date.split("-");
+      return new Date(`${y}-${m}-${d}`);
+    }
+  );
+  DailyReport.find({
+    date: { $gte: startDate, $lte: endDate },
+    productId: productId,
+  })
+    .populate({
+      path: "productId",
+      populate: {
+        path: "uploadedBy",
+        model: "User",
+      },
+    })
+    .then((data) => {
+      if (data.length <= 0) {
+        throw new Error("No data found");
+      } else {
+        res.render("admin/singleProductDetails", {
+          product: data,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send(err);
     });
 };

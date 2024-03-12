@@ -57,6 +57,7 @@ app.use(middleware.getUrl);
 
 app.use(authRoutes);
 app.use(adminRoutes);
+app.get("*", middleware.pageNotFound);
 // Connecting to database
 mongoose
   .connect(envVariables.connectionString)

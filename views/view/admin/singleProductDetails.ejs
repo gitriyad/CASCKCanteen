@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>পণ্যের বিবরণ</title>
+    <link rel="stylesheet" href="/css/logo.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/singleProductDetails.css" />
+  </head>
+  <body>
+    <%- include("../../template/logo.ejs")%>
+    <section class="productDetailsSection">
+      <div class="productDetailsContainer">
+        <div class="product">
+          <div class="left">
+            <div class="group">
+              <div class="lable">পণ্যের নামঃ</div>
+              <div class="data"><%= product[0].productName%></div>
+            </div>
+            <div class="group">
+              <div class="lable">পণ্যের ব্র্যান্ডঃ</div>
+              <div class="data"><%= product[0].productId.productBrand%></div>
+            </div>
+            <div class="group">
+              <div class="lable">পণ্যের ক্যাটাগরিঃ</div>
+              <div class="data"><%= product[0].productId.productCategory%></div>
+            </div>
+            <div class="group">
+              <div class="lable">
+                বর্তমান <%=product[0].productId.productQuantityUnit%> পণ্যের
+                দামঃ
+              </div>
+              <div class="data">
+                <%= product[0].productId.productPurchasePrice%>
+              </div>
+            </div>
+            <div class="group">
+              <div class="lable">বর্তমান স্টোর স্টকঃ</div>
+              <div class="data">
+                <%= product[0].productId.productStoreStock%>
+              </div>
+            </div>
+            <div class="group">
+              <div class="lable">বর্তমান ক্যান্টিন স্টকঃ</div>
+              <div class="data">
+                <%= product[0].productId.productCanteenStock%>
+              </div>
+            </div>
+            <div class="group">
+              <div class="lable">বর্তমান মোট স্টকঃ</div>
+              <div class="data">
+                <%= product[0].productId.productTotalStock%>
+              </div>
+            </div>
+            <div class="group">
+              <div class="lable">বর্তমান মোট স্টক ভ্যালুঃ</div>
+              <div class="data">
+                <%= product[0].productId.productTotalStockValue%>
+              </div>
+            </div>
+            <div class="group">
+              <div class="lable">পণ্য সংযোজনকারীঃ</div>
+              <div class="profileGroup">
+                <div
+                  class="userImage"
+                  style="
+                    background-image: url('/upload/user/<%= product[0].productId.uploadedBy.userShortName%>/<%= product[0].productId.uploadedBy.userProfilePicture%>');
+                  "
+                ></div>
+                <div class="data">
+                  <%= product[0].productId.uploadedBy.userName%>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="right">
+            <div
+              class="image"
+              style="
+                background-image: url('/upload/products/<%= product[0].productId.productBrand%>/<%= product[0].productId.productName%>/<%= product[0].productId.productImage%>');
+              "
+            ></div>
+          </div>
+        </div>
+        <div class="dateWiseDetails">
+          <% product.forEach(prod=>{%>
+          <div class="singleDateDetails">
+            <%let [m,d,y]=new
+            Date(prod.date).toLocaleString().split(",")[0].split("/");let
+            dt=`${d.padStart(2,"0")}-${m.padStart(2,"0")}-${y}`%>
+            <div class="date">
+              <div class="lable">তারিখ</div>
+              <div class="data"><%=dt%></div>
+            </div>
+            <div class="detailGroup">
+              <div class="lable head">ক্রয়</div>
+              <div class="buyGroup">
+                <div class="groupItem">
+                  <div class="lable">পরিমানঃ</div>
+                  <div class="data"><%= prod.buy.quantity%></div>
+                </div>
+                <div class="groupItem">
+                  <div class="lable">
+                    <%=prod.productId.productQuantityUnit%> পণ্যের দামঃ
+                  </div>
+                  <div class="data"><%= prod.buy.perUnitPrice%></div>
+                </div>
+                <div class="groupItem">
+                  <div class="lable">মোটঃ</div>
+                  <div class="data"><%= prod.buy.totalCost%></div>
+                </div>
+              </div>
+            </div>
+            <div class="detailGroup">
+              <div class="lable head">বিক্রয়</div>
+              <div class="buyGroup">
+                <div class="groupItem">
+                  <div class="lable">পরিমানঃ</div>
+                  <div class="data"><%= prod.sell.quantity%></div>
+                </div>
+                <div class="groupItem">
+                  <div class="lable">
+                    <%=prod.productId.productQuantityUnit%> পণ্যের দামঃ
+                  </div>
+                  <div class="data"><%= prod.sell.perUnitPrice%></div>
+                </div>
+                <div class="groupItem">
+                  <div class="lable">মোটঃ</div>
+                  <div class="data"><%= prod.sell.cost%></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%})%>
+        </div>
+      </div>
+    </section>
+    <section class="btnController">
+      <div class="download btn">Download As PDF</div>
+      <div class="print btn" onclick="printDocument()">Print</div>
+    </section>
+    <%- include("../../template/footer.ejs")%>
+    <script src="https://cdn.jsdelivr.net/npm/he@1.2.0/he.min.js"></script>
+    <script>
+      let decodedProduct = JSON.parse(
+        he.decode(`<%= JSON.stringify(product) %>`)
+      );
+      console.log("product", decodedProduct);
+    </script>
+    <script src="/js/singleProductDetails.js"></script>
+  </body>
+</html>

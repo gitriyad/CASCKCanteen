@@ -29,13 +29,27 @@ function queryReport() {
       }
     })
     .then((html) => {
-      let productsArr = JSON.parse(html);
-      let productDetailsDiv = document.querySelector(".productDetailsDiv");
-      console.log(productsArr);
-      let prod = document.createElement("div");
-      prod.className = "product";
-      productsArr.forEach((product) => {
-        prod.innerHTML = `
+      let { productsArr, totalExpense, expenseArr } = JSON.parse(html);
+      generateProductsReport(productsArr, startDate, endDate);
+      generateIncomeExpenseReport(productsArr, totalExpense, expenseArr);
+      displayHeaders();
+    })
+    .catch((queryReportResponseError) => {
+      alert(queryReportResponseError.message);
+    });
+}
+
+function generateProductsReport(productsArr, startDate, endDate) {
+  let productDetailsDiv = document.querySelector(".productDetailsDiv");
+  let prod = document.createElement("div");
+  prod.className = "product";
+  productsArr.forEach((product) => {
+    prod.setAttribute("prod-id", product._id);
+    prod.setAttribute(
+      "onclick",
+      `window.location.href="/admin/showSingleProductDetails/${product._id}/${startDate}/${endDate}"`
+    );
+    prod.innerHTML = `
             <div class="image" style="background-image:url('/upload/products/${
               product.productBrand
             }/${product.productName}/${product.productImage}')">
@@ -78,11 +92,125 @@ function queryReport() {
               </div>
             </div>
         `;
-        productDetailsDiv.append(prod.cloneNode(true));
-        document.querySelector(".header").style.display = "flex";
-      });
+    productDetailsDiv.append(prod.cloneNode(true));
+  });
+}
+function generateIncomeExpenseReport(productsArr, totalExpense, expenseArr) {
+  let incomeExpenseDiv = document.querySelector(".incomeExpenseDiv");
+  let statementDiv = document.createElement("div");
+  statementDiv.className = "statement";
+  let startDate = document.querySelector(".start").value.trim();
+  let endDate = document.querySelector(".end").value.trim();
+  let day = getDay(startDate, endDate);
+  let totalIncome = 0,
+    totalProfit = 0;
+  productsArr.forEach((pro) => {
+    totalIncome += pro.totalIncome;
+    totalProfit += pro.totalProfit;
+  });
+  let nonProductExpenses = expenseArr.filter((ex) => ex.product == null);
+  nonProductExpenses.map((ex) => {
+    let [m, d, y] = new Date(ex.date).toLocaleDateString().split("/");
+    ex.date = `${d.padStart(2, "0")} - ${m.padStart(2, "0")} - ${y}`;
+    return ex;
+  });
+  let totalNonProductExpense = nonProductExpenses.reduce(
+    (sum, ex) => sum + ex.expenseCost,
+    0
+  );
+  statementDiv.innerHTML = `
+  <div class="totalIncome">
+              <div class="lable">সর্বমোট আয়ঃ</div>
+              <div class="data expense">${totalIncome}</div>
+            </div>
+            <div class="productExpense">
+              <div class="lable">পণ্য ক্রয় বাবদ খরচঃ</div>
+              <div class="data expense">${totalExpense}</div>
+            </div>
+            <hr />
+            <div class="profit">
+              <div class="lable">মোট লাভঃ</div>
+              <div class="data expense">${totalProfit}</div>
+            </div>
+            <div class="header">
+              <h1 class="headline">অন্যান্য খরচঃ </h1>
+            </div>
+            ${nonProductExpenses
+              .map(
+                (ex) =>
+                  `<div class="otherExpense">
+                <div class="lable">তারিখঃ </div>
+                <div class="data expense">${ex.date}</div>
+                <div class="lable">ব্যায়ের খাতঃ</div>
+                <div class="data expense">${ex.category}</div>
+                <div class="lable">খরচঃ </div>
+                <div class="data expense">${ex.expenseCost}</div>
+              </div>`
+              )
+              .join("")}
+            <hr>
+            <div class="totalOtherExpense">
+              <div class="lable">মোট খরচঃ </div>
+              <div class="data expense">${totalNonProductExpense}</div>
+            </div>
+            <div class="header">
+              <h1 class="headline">নীট আয়ঃ </h1>
+            </div>
+            <div class="net">
+              <div class="lable">মোট লাভঃ </div>
+              <div class="data expense">${totalProfit}</div>
+            </div>
+            <div class="net">
+              <div class="lable">মোট অন্যান্য খরচঃ </div>
+              <div class="data expense">-${totalNonProductExpense}</div>
+            </div>
+            <hr>
+            <div class="net">
+              <div class="lable">মোটঃ </div>
+              <div class="data expense">${
+                totalProfit - totalNonProductExpense
+              }</div>
+            </div>
+            
+  `;
+  incomeExpenseDiv.append(statementDiv.cloneNode(true));
+}
+
+function getDay(startDate, endDate) {
+  let timeDiff = [startDate, endDate]
+    .map((date) => {
+      let [d, m, y] = date.split("-");
+      return new Date(`${y}-${m}-${d}`);
     })
-    .catch((queryReportResponseError) => {
-      alert(queryReportResponseError.message);
+    .reduce((dif, date, i) => {
+      if (i == 0) {
+        return date;
+      } else {
+        return date - dif;
+      }
+    }, 0);
+  let day = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+  return day;
+}
+function displayHeaders() {
+  [...document.querySelectorAll(".header")].forEach(
+    (header) => (header.style.display = "flex")
+  );
+  document.querySelector(".previewPrint").style.display = "flex";
+}
+function previewPrint() {
+  let startDate = document.querySelector(".start").value.trim();
+  let endDate = document.querySelector(".end").value.trim();
+  let pdfFile = `${startDate}-${endDate}`;
+  fetch("/admin/previewPrint/" + pdfFile)
+    .then((previewPrintResponse) => {
+      if (!previewPrintResponse.ok) {
+        alert(previewPrintResponse.text());
+      } else {
+        return previewPrintResponse.text();
+      }
+    })
+    .catch((error) => {
+      alert(error.message);
     });
 }

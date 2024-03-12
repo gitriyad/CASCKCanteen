@@ -30,15 +30,17 @@ input.dateInput {
 .header {
   display: none;
   justify-content: center;
+  background: white;
+  width: 100%;
+  padding: 1rem 0;
 }
 .productDetailsDiv {
   width: 100%;
-
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   height: 50rem;
   overflow: auto;
 }
@@ -50,6 +52,7 @@ input.dateInput {
   gap: 1rem;
   background: rgba(20, 25, 100, 0.2);
   padding: 0 0.5rem;
+  width: 37rem;
 }
 .image {
   height: 15rem;
@@ -94,4 +97,61 @@ input.dateInput {
 }
 .data {
   font-weight: 800;
+}
+/* **************************************************************************************************** */
+/* income statement */
+/* ******************************************************************************************************* */
+.incomeExpenseDiv {
+  width: 90vw;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.2);
+}
+.statement {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  justify-content: flex-start;
+}
+.totalIncome,
+.productExpense,
+.profit {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0.5rem 0.6rem;
+}
+.data.expense {
+  width: 10rem;
+}
+hr {
+  width: 100%;
+  height: 0.2rem;
+  border: none;
+  background: black;
+}
+.otherExpense {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.6rem;
+}
+.totalOtherExpense {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0.5rem 0.6rem;
+}
+.net {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+}
+.previewPrint.btn {
+  width: 15rem;
+  margin: 1rem auto 0 auto;
 }
