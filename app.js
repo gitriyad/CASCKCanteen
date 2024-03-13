@@ -62,7 +62,7 @@ app.get("*", middleware.pageNotFound);
 mongoose
   .connect(envVariables.connectionString)
   .then((res) => {
-    console.log("Database Connected");
+    console.log(`Database Connected on ${PORT}`);
     app.listen(PORT);
   })
   .catch((databaseConnectionError) => {
