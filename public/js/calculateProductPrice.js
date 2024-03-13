@@ -609,6 +609,7 @@ function submitProducts() {
       })
       .then((data) => {
         alert(data);
+        window.location.reload();
       })
       .catch((proPricCalcError) => {
         alert(proPricCalcError.message);

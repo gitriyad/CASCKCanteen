@@ -136,6 +136,7 @@ Router.post(
 //Router.get("/admin/previewPrint/:pdfFile", adminController.previewPrint);
 Router.get(
   "/admin/showSingleProductDetails/:productId/:startDate/:endDate",
+  middleware.isAuthenticated,
   adminController.fetchSingleProductDetails
 );
 // exporting routes

@@ -89,6 +89,7 @@ saveProductBtn.addEventListener("click", () => {
       })
       .then((data) => {
         alert(data);
+        window.location.reload();
       })
       .catch((addProductError) => {
         alert(`${addProductError.message}`);

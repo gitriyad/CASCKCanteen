@@ -439,12 +439,21 @@ exports.postUpdateCombinedProduct = (req, res, next) => {
     });
 };
 exports.deleteProduct = (req, res, next) => {
-  let id = new mongoose.Types.ObjectId(req.params.prodId);
+  let id = new mongoose.Types.ObjectId(String(req.params.prodId));
   Product.findOneAndDelete(id)
-    .then((product) => {
+    .then(async (product) => {
       if (!product) {
         throw new Error("Product not found");
       } else {
+        let prodImagePath = path.join(
+          rootDir,
+          "public",
+          "upload",
+          "products",
+          product.productBrand,
+          product.productName
+        );
+        await fs.remove(prodImagePath);
         res.redirect("/admin/showProducts");
       }
     })
@@ -1211,7 +1220,14 @@ async function getProductWiseDailyReport(startDate, endDate) {
     });
 }
 exports.getFullReport = (req, res, next) => {
-  res.render("admin/seeFullReport");
+  res.render("admin/seeFullReport", {
+    backUrl: [
+      {
+        link: "/admin/dashboard",
+        text: "Dashboard",
+      },
+    ],
+  });
 };
 function getTop(arr, control) {
   return [
@@ -1528,6 +1544,16 @@ exports.fetchSingleProductDetails = (req, res, next) => {
       } else {
         res.render("admin/singleProductDetails", {
           product: data,
+          backUrl: [
+            {
+              link: "/admin/dashboard",
+              text: "Dashboard",
+            },
+            {
+              link: "/admin/seeFullReport",
+              text: "Full Report",
+            },
+          ],
         });
       }
     })

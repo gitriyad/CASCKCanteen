@@ -196,4 +196,7 @@ section.btnController {
   .footerSection {
     margin: -1.2rem 0 0 0;
   }
+  .backLinks {
+    display: none;
+  }
 }
