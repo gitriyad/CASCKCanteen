@@ -80,9 +80,9 @@ saveProductBtn.addEventListener("click", () => {
       method: "POST",
       body: formdata,
     })
-      .then((addDataResponse) => {
+      .then(async (addDataResponse) => {
         if (!addDataResponse.ok) {
-          throw new Error(addDataResponse.text());
+          throw new Error(await addDataResponse.text());
         } else {
           return addDataResponse.text();
         }
