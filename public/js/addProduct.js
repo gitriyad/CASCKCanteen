@@ -82,7 +82,7 @@ saveProductBtn.addEventListener("click", () => {
     })
       .then((addDataResponse) => {
         if (!addDataResponse.ok) {
-          throw new Error("Can Not Connect To The Server ");
+          throw new Error(addDataResponse.text());
         } else {
           return addDataResponse.text();
         }

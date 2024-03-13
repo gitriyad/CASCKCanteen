@@ -118,7 +118,7 @@ exports.postAddProduct = (req, res, next) => {
       }
     });
   } catch (productAddingError) {
-    res.send(`Product Adding Error: ${productAddingError}`);
+    res.status(500).send(`Product Adding Error: ${productAddingError}`);
   }
 };
 exports.postCalculateProductPrice = (req, res, next) => {
