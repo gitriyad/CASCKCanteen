@@ -4,7 +4,7 @@ let fs = require("fs-extra");
 let path = require("path");
 let rootDir = require("../utility/root");
 let mongoose = require("mongoose");
-const pdf = require("html-pdf");
+// const pdf = require("html-pdf");
 
 // importing models
 let Product = require("../model/product");
