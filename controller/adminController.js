@@ -4,6 +4,7 @@ let fs = require("fs-extra");
 let path = require("path");
 let rootDir = require("../utility/root");
 let mongoose = require("mongoose");
+let { exec } = require("child_process");
 // const pdf = require("html-pdf");
 
 // importing models
@@ -1581,6 +1582,11 @@ exports.fetchSingleProductDetails = (req, res, next) => {
     });
 };
 exports.deploy = (req, res, next) => {
-  console.log("deployed");
-  console.log(req.body);
+  exec("./deploy.sh")
+    .then(({ stdout, stderr }) => {
+      console.log("deploy success");
+    })
+    .catch((depError) => {
+      console.log("deploy error", depError);
+    });
 };
