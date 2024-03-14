@@ -17,8 +17,8 @@ let saveProductBtn = document.querySelector(".saveProductBtn");
 saveProductBtn.addEventListener("click", () => {
   let productName = document.querySelector(".productName");
   let productBrand = document.querySelector(".productBrand");
-  let productKitchenStock = document.querySelector(".productKitchenStock");
-  let productCanteenStock = document.querySelector(".productCanteenStock");
+  //let productKitchenStock = document.querySelector(".productKitchenStock");
+  //let productCanteenStock = document.querySelector(".productCanteenStock");
   let productQuantityUnit = document.querySelector(".productQuantityUnit");
   let productImage = document.querySelector(".productImage");
   let categorySelcetElement = document.querySelector(".categorySelcetElement");
@@ -27,8 +27,8 @@ saveProductBtn.addEventListener("click", () => {
   let isValid = checkValidity(
     productName,
     productBrand,
-    productKitchenStock,
-    productCanteenStock,
+    //productKitchenStock,
+    //productCanteenStock,
     productQuantityUnit,
     productImage,
     productIsCombined,
@@ -37,8 +37,8 @@ saveProductBtn.addEventListener("click", () => {
   if (isValid) {
     let productNameValue = productName.value.trim();
     let productBrandValue = productBrand.value.trim();
-    let productKitchenStockValue = parseFloat(productKitchenStock.value.trim());
-    let productCanteenStockValue = parseFloat(productCanteenStock.value.trim());
+    //let productKitchenStockValue = parseFloat(productKitchenStock.value.trim());
+    //let productCanteenStockValue = parseFloat(productCanteenStock.value.trim());
     let productQuantityUnitValue = productQuantityUnit.value.trim();
     let productImageFile = productImage.files[0];
     let productCategory = categorySelcetElement.value;
@@ -46,8 +46,8 @@ saveProductBtn.addEventListener("click", () => {
     let formdata = new FormData();
     formdata.append("productName", productNameValue);
     formdata.append("productBrand", productBrandValue);
-    formdata.append("productStoreStock", productKitchenStockValue);
-    formdata.append("productCanteenStock", productCanteenStockValue);
+    //formdata.append("productStoreStock", productKitchenStockValue);
+    //formdata.append("productCanteenStock", productCanteenStockValue);
     formdata.append("productQuantityUnit", productQuantityUnitValue);
     formdata.append("productImage", productImageFile);
     formdata.append("uploadedBy", userId);
@@ -101,8 +101,8 @@ saveProductBtn.addEventListener("click", () => {
 function checkValidity(
   productName,
   productBrand,
-  productKitchenStock,
-  productCanteenStock,
+  //productKitchenStock,
+  //productCanteenStock,
   productQuantityUnit,
   productImage,
   productIsCombined,
@@ -110,16 +110,16 @@ function checkValidity(
 ) {
   let productNameValue = productName.value.trim();
   let productBrandValue = productBrand.value.trim();
-  let productKitchenStockValue = parseFloat(productKitchenStock.value.trim());
-  let productCanteenStockValue = parseFloat(productCanteenStock.value.trim());
+  //let productKitchenStockValue = parseFloat(productKitchenStock.value.trim());
+  //let productCanteenStockValue = parseFloat(productCanteenStock.value.trim());
   let productQuantityUnitValue = productQuantityUnit.value.trim();
   let productImageContainer = document.querySelector(".productImageContainer");
 
   productName.style.setProperty("--placeholder-color", "black");
   productBrand.style.setProperty("--placeholder-color", "black");
-  productKitchenStock.style.setProperty("--placeholder-color", "black");
+  //productKitchenStock.style.setProperty("--placeholder-color", "black");
   productQuantityUnit.style.backgroundColor = "white";
-  productCanteenStock.style.setProperty("--placeholder-color", "black");
+  // productCanteenStock.style.setProperty("--placeholder-color", "black");
   productImageContainer.style.backgroundColor = "white";
   productImage.style.backgroundColor = "white";
   let ingredients = document.querySelectorAll(".ingredient");
@@ -138,19 +138,21 @@ function checkValidity(
     productBrand.placeholder = "Please Input Product Brand Value";
     alert("Please Input Product Brand Value");
     return false;
-  } else if (isNaN(productKitchenStockValue)) {
-    productKitchenStock.style.setProperty("--placeholder-color", "red");
-    productKitchenStock.placeholder =
-      "Please Input Product Kitchen Stock Value";
-    alert("Please Input Product Kitchen Stock Value");
-    return false;
-  } else if (isNaN(productCanteenStockValue)) {
-    productCanteenStock.style.setProperty("--placeholder-color", "red");
-    productCanteenStock.placeholder =
-      "Please Input Product Canteen Stock Value";
-    alert("Please Input Product Canteen Stock Value");
-    return false;
-  } else if (productQuantityUnitValue == "") {
+  }
+  // } else if (isNaN(productKitchenStockValue)) {
+  //   productKitchenStock.style.setProperty("--placeholder-color", "red");
+  //   productKitchenStock.placeholder =
+  //     "Please Input Product Kitchen Stock Value";
+  //   alert("Please Input Product Kitchen Stock Value");
+  //   return false;
+  // } else if (isNaN(productCanteenStockValue)) {
+  //   productCanteenStock.style.setProperty("--placeholder-color", "red");
+  //   productCanteenStock.placeholder =
+  //     "Please Input Product Canteen Stock Value";
+  //   alert("Please Input Product Canteen Stock Value");
+  //   return false;
+  // }
+  else if (productQuantityUnitValue == "") {
     productQuantityUnit.style.backgroundColor = "red";
     productQuantityUnit.placeholder =
       "Please Input Product Quantity Unit Value";

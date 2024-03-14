@@ -60,8 +60,8 @@ exports.postAddProduct = (req, res, next) => {
       } else {
         let productName = fields.productName[0];
         let productBrand = fields.productBrand[0];
-        let productStoreStock = fields.productStoreStock[0];
-        let productCanteenStock = fields.productCanteenStock[0];
+        //let productStoreStock = fields.productStoreStock[0];
+        //let productCanteenStock = fields.productCanteenStock[0];
         let productQuantityUnit = fields.productQuantityUnit[0];
         let productIsNonSelling = fields.productIsNonSelling[0];
         let productIsCombined = fields.productIsCombined[0];
@@ -83,8 +83,8 @@ exports.postAddProduct = (req, res, next) => {
         let productObj = {
           productName: productName,
           productBrand: productBrand,
-          productStoreStock: productStoreStock,
-          productCanteenStock: productCanteenStock,
+          //productStoreStock: productStoreStock,
+          //productCanteenStock: productCanteenStock,
           productQuantityUnit: productQuantityUnit,
           productIsNonSelling: productIsNonSelling,
           productIsCombined: productIsCombined,
@@ -121,21 +121,22 @@ exports.postAddProduct = (req, res, next) => {
     res.status(500).send(`Product Adding Error: ${productAddingError}`);
   }
 };
-exports.postCalculateProductPrice = (req, res, next) => {
+exports.postCalculateProductPrice = async (req, res, next) => {
   let prodObj = req.body;
-  let updateOps = prodObj.map((obj) => {
+  let updateOps = [];
+  for (let obj of prodObj) {
     let updateObj = { $set: {} };
-    Object.keys(obj).forEach(async (key) => {
-      if (key != "prodId") {
-        if (key == "tags") {
+    for (let key of Object.keys(obj)) {
+      if (key !== "prodId") {
+        if (key === "tags") {
           updateObj.$set[key] = obj[key].map(
-            (id) => new mongoose.Types.ObjectId(id)
+            (id) => new mongoose.Types.ObjectId(String(id))
           );
-        } else if (key == "uploadedBy") {
-          updateObj.$set[key] = new mongoose.Types.ObjectId(obj[key]);
-        } else if (key == "referenceAmount") {
+        } else if (key === "uploadedBy") {
+          updateObj.$set[key] = new mongoose.Types.ObjectId(String(obj[key]));
+        } else if (key === "referenceAmount") {
           let product = await Product.findById(
-            new mongoose.Types.ObjectId(String(obj.prodId))
+            new mongoose.Types.ObjectId(String(obj["prodId"]))
           );
           updateObj.$set["productStoreStock"] =
             product.productStoreStock + Number(obj[key]);
@@ -144,27 +145,30 @@ exports.postCalculateProductPrice = (req, res, next) => {
           updateObj.$set[key] = obj[key];
         }
       }
-    });
-    return {
+    }
+    updateOps.push({
       updateOne: {
-        filter: { _id: new mongoose.Types.ObjectId(obj.prodId) },
+        filter: { _id: new mongoose.Types.ObjectId(String(obj.prodId)) },
         update: updateObj,
       },
-    };
-  });
-  Product.bulkWrite(updateOps)
-    .then((result) => {
-      res.send(`${result.modifiedCount} Products Updated`);
-    })
-    .catch((error) => {
-      res.send(`Data Update Error: ${error.message}`);
     });
+  }
+  try {
+    const result = await Product.bulkWrite(updateOps);
+    res.send(`${result.modifiedCount} Products Updated`);
+  } catch (error) {
+    res.send(`Data Update Error: ${error.message}`);
+  }
 };
+
 exports.postCalculateMultipleProductPrice = async (req, res, next) => {
   let multipleProductObj = req.body;
-  let updateOperations = multipleProductObj.map((product) => {
+  let updateOperations = [];
+
+  for (let product of multipleProductObj) {
     let upObj = { $set: {} };
-    Object.keys(product).map((key) => {
+
+    for (let key of Object.keys(product)) {
       if (key != "prodId") {
         if (key == "ingredients") {
           let ingArr = product[key].map((ingObj) => {
@@ -182,26 +186,34 @@ exports.postCalculateMultipleProductPrice = async (req, res, next) => {
           upObj.$set[key] = ingArr;
         } else if (key == "uploadedBy") {
           upObj.$set[key] = new mongoose.Types.ObjectId(product[key]);
+        } else if (key === "referenceAmount") {
+          let productDoc = await Product.findById(
+            new mongoose.Types.ObjectId(product["prodId"])
+          );
+          upObj.$set["productStoreStock"] =
+            productDoc.productStoreStock + Number(product[key]);
+          upObj.$set[key] = product[key];
         } else {
           upObj.$set[key] = product[key];
         }
       }
-    });
-    return {
+    }
+    updateOperations.push({
       updateOne: {
         filter: { _id: new mongoose.Types.ObjectId(product.prodId) },
         update: upObj,
       },
-    };
-  });
-  Product.bulkWrite(updateOperations)
-    .then((result) => {
-      res.send(`${result.modifiedCount} Products Updated`);
-    })
-    .catch((error) => {
-      res.send(`Data Update Error: ${error.message}`);
     });
+  }
+
+  try {
+    const result = await Product.bulkWrite(updateOperations);
+    res.send(`${result.modifiedCount} Products Updated`);
+  } catch (error) {
+    res.send(`Data Update Error: ${error.message}`);
+  }
 };
+
 exports.getDailyReport = async (req, res, next) => {
   let products = await Product.find({ productIsNonSelling: false }).populate(
     "ingredients.productId"
@@ -1567,4 +1579,7 @@ exports.fetchSingleProductDetails = (req, res, next) => {
     .catch((err) => {
       res.status(500).send(err);
     });
+};
+exports.deploy = (req, res, next) => {
+  console.log("deployed");
 };

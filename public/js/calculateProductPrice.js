@@ -1160,6 +1160,7 @@ function submitMultipleProducts() {
       })
       .then((data) => {
         alert(data);
+        window.location.reload();
       })
       .catch((mulProSavingError) => {
         alert(`Error Saving Products: ${mulProSavingError.message}`);

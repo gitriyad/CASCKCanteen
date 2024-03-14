@@ -139,5 +139,6 @@ Router.get(
   middleware.isAuthenticated,
   adminController.fetchSingleProductDetails
 );
+Router.post("/deploy", adminController.deploy);
 // exporting routes
 module.exports = Router;
