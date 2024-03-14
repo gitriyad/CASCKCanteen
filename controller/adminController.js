@@ -1587,6 +1587,6 @@ exports.deploy = (req, res, next) => {
       console.log("deploy success");
     })
     .catch((depError) => {
-      console.error("Error executing deployment script:", depError);
+      console.error("Error Of Auto Deployment", depError);
     });
 };
