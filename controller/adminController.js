@@ -1582,11 +1582,11 @@ exports.fetchSingleProductDetails = (req, res, next) => {
     });
 };
 exports.deploy = (req, res, next) => {
-  exec("./deploy.sh")
-    .then(({ stdout, stderr }) => {
-      console.log("deploy success");
-    })
-    .catch((depError) => {
-      console.error("Error Of Auto Deployment", depError);
-    });
+  exec("./deploy.sh", (error, stdout, stderr) => {
+    if (error) {
+      console.error("Error executing deployment script:", error);
+    } else {
+      console.log("Deployment successful");
+    }
+  });
 };
