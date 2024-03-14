@@ -1582,4 +1582,5 @@ exports.fetchSingleProductDetails = (req, res, next) => {
 };
 exports.deploy = (req, res, next) => {
   console.log("deployed");
+  console.log(req.body);
 };
