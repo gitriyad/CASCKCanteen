@@ -1584,7 +1584,7 @@ exports.fetchSingleProductDetails = (req, res, next) => {
 exports.deploy = (req, res, next) => {
   exec("./deploy.sh", (error, stdout, stderr) => {
     if (error) {
-      console.error("Error executing deployment script:", error);
+      console.error("Error Of Automatic Deployment", error);
     } else {
       console.log("Deployment successful");
     }
