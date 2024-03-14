@@ -32,7 +32,7 @@ app.use(
   session({
     secret: envVariables.secretKey,
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: store,
     name: sessonName,
     cookie: {

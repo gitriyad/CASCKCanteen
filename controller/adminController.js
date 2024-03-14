@@ -125,7 +125,7 @@ exports.postCalculateProductPrice = (req, res, next) => {
   let prodObj = req.body;
   let updateOps = prodObj.map((obj) => {
     let updateObj = { $set: {} };
-    Object.keys(obj).forEach((key) => {
+    Object.keys(obj).forEach(async (key) => {
       if (key != "prodId") {
         if (key == "tags") {
           updateObj.$set[key] = obj[key].map(
@@ -133,6 +133,13 @@ exports.postCalculateProductPrice = (req, res, next) => {
           );
         } else if (key == "uploadedBy") {
           updateObj.$set[key] = new mongoose.Types.ObjectId(obj[key]);
+        } else if (key == "referenceAmount") {
+          let product = await Product.findById(
+            new mongoose.Types.ObjectId(String(obj.prodId))
+          );
+          updateObj.$set["productStoreStock"] =
+            product.productStoreStock + Number(obj[key]);
+          updateObj.$set[key] = obj[key];
         } else {
           updateObj.$set[key] = obj[key];
         }
