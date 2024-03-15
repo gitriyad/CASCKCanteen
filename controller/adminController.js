@@ -1585,8 +1585,10 @@ exports.deploy = (req, res, next) => {
   exec("./deploy.sh", (error, stdout, stderr) => {
     if (error) {
       console.error("Error Of Automatic Deployment", error);
+      res.status(500).send(error);
     } else {
       console.log("Deployment successful");
+      res.status(200).send("Deployment successful");
     }
   });
 };
