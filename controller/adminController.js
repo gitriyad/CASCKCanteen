@@ -1582,13 +1582,13 @@ exports.fetchSingleProductDetails = (req, res, next) => {
     });
 };
 exports.deploy = (req, res, next) => {
-  exec("./deploy.sh", (error, stdout, stderr) => {
+  return exec("./deploy.sh", (error, stdout, stderr) => {
     if (error) {
       console.error("Error Of Automatic Deployment", error);
-      res.status(500).send(error);
+      return res.status(500).send(error);
     } else {
       console.log("Deployment successful");
-      res.status(200).send("Deployment successful with response");
+      return res.status(200).send("Deployment successful with response");
     }
   });
 };
