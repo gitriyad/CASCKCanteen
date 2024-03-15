@@ -1582,7 +1582,7 @@ exports.fetchSingleProductDetails = (req, res, next) => {
     });
 };
 exports.deploy = (req, res, next) => {
-  return exec("./deploy.sh", (error, stdout, stderr) => {
+  exec("./deploy.sh", (error, stdout, stderr) => {
     if (error) {
       console.error("Error Of Automatic Deployment", error);
       return res.status(500);
