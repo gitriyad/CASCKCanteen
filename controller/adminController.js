@@ -1588,7 +1588,7 @@ exports.deploy = (req, res, next) => {
       res.status(500).send(error);
     } else {
       console.log("Deployment successful");
-      res.status(200).send("Deployment successful");
+      res.status(200).send("Deployment successful with response");
     }
   });
 };
